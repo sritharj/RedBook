@@ -1,9 +1,9 @@
 ﻿import * as React from 'react';
-//import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Layout from './Layout';
 import Routes from './Routing';
 
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -17,3 +17,5 @@ export default class App extends React.Component {
 
     }
 }
+
+export default withRouter(App);

@@ -6,9 +6,10 @@
 
   <ItemGroup>
     <Folder Include="Requests\" />
-    <Folder Include="Responses\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Implementations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RedBook.Model\RedBook.Model.csproj" />
   </ItemGroup>
 
 </Project>

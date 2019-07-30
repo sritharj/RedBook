@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NetworkTeamSite.Web.Controllers
+namespace RedBook.Web.Controllers
 {
     public class HomeController : Controller
     {

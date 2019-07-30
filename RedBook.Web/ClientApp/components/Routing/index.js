@@ -1,13 +1,13 @@
 ﻿import React from 'react';
 import { Route, Switch } from 'react-router';
 import Home from '../Content/Home';
-import Drivers from '../Content/Drivers';
+import Login from '../Content/Login';
 
 
 export default function Routes() {
     return (
         <Switch>
-            <Route path='/' exact component={Drivers} />
+            <Route path='/' exact component={Login} />
         </Switch>
     );
 };

@@ -27,16 +27,14 @@ namespace RedBook.Repository
                 cn.Open();
                 var result = cn.Query(sql, new { empId }).SingleOrDefault();
                 if (result == null) return null;
-                //var emp = UserFactory.GetUserType((UserTypes)result.UserType);
-                //emp.Type = result.Type;
                 return GetSummary(result);
             }
         }
-
+        
         public void RegisterUser(int username, string pw)
         {
             const string sql = @"INSERT INTO Users(Username, Password)
-                                 SELECT EmpId, HASHBYTES('SHA_256', @pw + Slt)
+                                 SELECT EmpId, HASHBYTES('SHA2_256', @pw + Slt)
                                    FROM Employees 
                                   WHERE EmpId = @username";
 
@@ -47,19 +45,19 @@ namespace RedBook.Repository
             }
         }
 
-        //public Employee FindUser(int username, string pw)
-        //{
-        //    const string sql = @"SELECT * FROM Users WHERE Username = @username AND Password = HASHBYTES('SHA2_256', @pw + (SELECT Slt FROM Employees WHERE EmpId = @username))";
+        public User SignIn(int username, string pw)
+        {
+            const string sql = @"SELECT Username FROM Users WHERE Username = @username AND Password = HASHBYTES('SHA2_256', @pw + (SELECT Slt FROM Employees WHERE EmpId = @username))";
 
-        //    using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
-        //    {
-        //        cn.Open();
-        //        var result = cn.Query(sql, new { username, pw }).SingleOrDefault();
-        //        if (result == null) return null;
-        //        return GetSummary(result);
-        //    }
-        //}
-        
+            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
+            {
+                cn.Open();
+                var result = cn.Query(sql, new { username, pw }).SingleOrDefault();
+                if (result == null) return null;
+                return GetUserSummary(result);
+            }
+        }
+
 
         private Employee GetSummary(dynamic result)
         {
@@ -70,6 +68,14 @@ namespace RedBook.Repository
                 LastName = result.LastName,
                 Type = result.UserType,
                 Slt = result.Slt
+            };
+        }
+
+        private User GetUserSummary(dynamic result)
+        {
+            return new User
+            {
+                Username = result.Username
             };
         }
     }

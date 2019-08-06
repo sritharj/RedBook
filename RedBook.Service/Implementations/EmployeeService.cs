@@ -1,5 +1,6 @@
 ﻿using RedBook.Model.Interfaces;
 using RedBook.Service.Interfaces;
+using RedBook.Service.Requests;
 using RedBook.Service.Responses;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,19 @@ namespace RedBook.Service.Implementations
             if (data == null) return response;
 
             response.Employee = data;
+            response.Success = true;
+
+            return response;
+        }
+
+        public GetUserResponse SignIn(GetUserRequest request)
+        {
+            var response = new GetUserResponse();
+
+            var data = _empRepo.SignIn(request.EmpId, request.Password);
+            if (data == null) return response;
+
+            response.User = data;
             response.Success = true;
 
             return response;

@@ -8,7 +8,6 @@
         public string Type { get; set; }
         public string Slt { get; set; }
 
-        public User User { get; set; }
     }
 
     public class Driver : Employee

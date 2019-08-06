@@ -3,7 +3,7 @@
     public interface IEmployeeRepository
     {
         Employee Find(int EmpId);
-        //Employee FindUser(int Username, string Password);
+        User SignIn(int Username, string Password);
 
         void RegisterUser(int Username, string Password);
     }

@@ -31,5 +31,18 @@ namespace RedBook.Web.Controllers
 
             return BadRequest();
         }
+        /*
+        [HttpPost("user")]
+        public IActionResult UserSignIn([FromBody] GetUserRequest request)
+        {
+            var resp = _service.SignIn(request);
+            if(resp.Success)
+            {
+                return Ok(resp.User);
+            }
+
+            return BadRequest();
+        }
+        */
     }
 }

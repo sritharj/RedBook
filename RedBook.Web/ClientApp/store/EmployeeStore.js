@@ -7,6 +7,7 @@ const defaultState = {
 };
 
 export const actionCreators = {
+    
     loadEmployee: (empId) => (dispatch) => {
         dispatch({ type: 'REQUEST_EMP' });
         const url = `api/employee/${empId}`;
@@ -26,19 +27,21 @@ export const actionCreators = {
                     alert('employee not found');
                 }
             });
-    }
+    },
+
 };
 
 export const reducer = (state, action) => {
     switch (action.type) {
         case 'REQUEST_EMP':
-            return Object.assign({}, state, { loading: true });
+            return Object.assign({}, state, { success: true });
         case 'RECEIVE_EMP':
             return Object.assign({}, state, {
                 employee: action.employee,
-                loading: false
+                success: false
 
             });
+
     }
     return state || defaultState;
 };

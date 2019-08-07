@@ -9,14 +9,12 @@ namespace RedBook.Service
             EmpId = data.EmpId;
             FirstName = data.FirstName;
             LastName = data.LastName;
-            Type = data.Type;
-            Slt = data.Slt;
+            Role = data.Role;
         }
 
         public int EmpId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Type { get; set; }
-        public string Slt { get; set; }
+        public string Role { get; set; }
     }
 }

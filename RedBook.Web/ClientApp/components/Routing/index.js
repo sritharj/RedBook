@@ -8,6 +8,7 @@ export default function Routes() {
     return (
         <Switch>
             <Route path='/' exact component={Login} />
+
         </Switch>
     );
 };

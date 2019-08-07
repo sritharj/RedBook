@@ -1,44 +1,48 @@
-﻿using RedBook.Model.Interfaces;
+﻿using RedBook.Model;
+using RedBook.Model.Interfaces;
 using RedBook.Service.Interfaces;
 using RedBook.Service.Requests;
 using RedBook.Service.Responses;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RedBook.Service.Implementations
 {
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _empRepo;
+        private readonly IUserRepository _userRepo;
 
-        public EmployeeService(
-            IEmployeeRepository empRepo
-            
+        public EmployeeService
+        (
+            IEmployeeRepository empRepo,
+            IUserRepository userRepo
         )
         {
             _empRepo = empRepo;
+            _userRepo = userRepo;
         }
 
-        public GetEmployeeResponse FindEmployee(int empId)
+        public GetEmployeeResponse GetEmployee(int empId)
         {
             var response = new GetEmployeeResponse();
 
             var data = _empRepo.Find(empId);
-            if (data == null) return response;
+            if (data == null) return null;
+
+            data.User = _userRepo.GetUser(empId);
 
             response.Employee = data;
             response.Success = true;
 
             return response;
+            
         }
 
-        public GetUserResponse SignIn(GetUserRequest request)
+        public GetUserResponse Authenticate(GetUserRequest request)
         {
             var response = new GetUserResponse();
 
-            var data = _empRepo.SignIn(request.EmpId, request.Password);
-            if (data == null) return response;
+            var data = _userRepo.Authenticate(request.EmpId, request.Password);
+            if (data == null) return null;
 
             response.User = data;
             response.Success = true;

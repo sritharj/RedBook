@@ -2,8 +2,14 @@
 {
     public class User
     {
-        public int Username { get; set; }
-        public byte[] Password { get; set; }
+        public User() { }
+        public User(int empId, string pw)
+        {
+            EmpId = empId;
+            Password = pw;
+        }
+        public int EmpId { get; set; }
+        public string Password { get; set; }
     }
 }
 

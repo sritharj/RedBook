@@ -2,10 +2,11 @@
 import { connect } from 'react-redux';
 //import { Form, FormGroup, Label, Input, Button, Col, Row } from 'reactstrap';
 import { Button } from 'reactstrap';
-import * as UserStore from '../../../store/UserStore';
+import * as EmployeeStore from '../../../store/EmployeeStore';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import { withRouter } from 'react-router-dom';
 
 //use pass123 for password when testing
 //hide pass in connection string
@@ -15,6 +16,7 @@ class SignIn extends React.Component {
         super(props);
 
         this.state = {
+
             empId: '',
             pw: ''
 
@@ -36,11 +38,15 @@ class SignIn extends React.Component {
     test(e) {
         e.preventDefault();
 
-        this.props.userSignIn(this.state.empId, this.state.pw);
+        this.props.authenticate(this.state.empId, this.state.pw);
+        
+        //console.log(this.props);
+
     }
 
     regPage() {
         console.log(this.props);
+
     }
 
     /*
@@ -117,7 +123,7 @@ class SignIn extends React.Component {
                         />
 
                         <Button color="success" block onClick={this.test}>
-                            Sign In
+                            Find Me
                         </Button>
                         
 
@@ -135,4 +141,4 @@ class SignIn extends React.Component {
         );
     }
 }
-export default connect(state => state.user, UserStore.actionCreators)(SignIn);
+export default withRouter(connect(state => state.employee, EmployeeStore.actionCreators)(SignIn));

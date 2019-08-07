@@ -3,12 +3,10 @@ import thunk from 'redux-thunk';
 //import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import * as Employee from './store/EmployeeStore';
-import * as User from './store/UserStore';
 
 export default function configureStore(history, initialState) {
     const reducers = {
-        employee: Employee.reducer,
-        user: User.reducer
+        employee: Employee.reducer
     };
 
     const middleware = [

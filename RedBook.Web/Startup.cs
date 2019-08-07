@@ -31,7 +31,7 @@ namespace RedBook.Web
 
             services.AddSingleton(Configuration);
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IEmployeeService, EmployeeService>();
 
             // In production, the React files will be served from this directory

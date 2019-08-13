@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Implementations\UserInfoService.cs~RFac0a1e59.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RedBook.Model\RedBook.Model.csproj" />
   </ItemGroup>
 

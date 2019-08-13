@@ -30,9 +30,9 @@ namespace RedBook.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton(Configuration);
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            //services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IUserInfoService, UserInfoService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

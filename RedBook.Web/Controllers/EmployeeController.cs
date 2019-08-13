@@ -24,18 +24,18 @@ namespace RedBook.Web.Controllers
     public class EmployeeController : Controller
     {
 
-        private readonly IEmployeeService _service;
+        private readonly IUserInfoService _service;
         //private readonly AppSettings _appSettings;
 
         public EmployeeController(
             
-            IEmployeeService service
+            IUserInfoService service
             //IOptions<AppSettings> appSettings
         )
         {
             _service = service;
         }
-        
+        /*
         [HttpGet("{empId:int}")]
         public IActionResult GetEmployee(int empId)
         {
@@ -47,7 +47,7 @@ namespace RedBook.Web.Controllers
 
             return BadRequest();
         }
-
+        */
         //[AllowAnonymous]
         [HttpPost("authenticate/{empId:int}")]
         public IActionResult Authenticate([FromBody] GetUserRequest request)

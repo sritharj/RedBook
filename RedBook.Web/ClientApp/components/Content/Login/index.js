@@ -1,17 +1,18 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 //import { Form, FormGroup, Label, Input, Button, Col, Row } from 'reactstrap';
 import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import { withRouter } from 'react-router-dom';
+import NotFound from '../NotFound';
 
 //use pass123 for password when testing
 //hide pass in connection string
 
-class SignIn extends React.Component {
+class LogIn extends React.Component {
     constructor(props) {
         super(props);
 
@@ -22,7 +23,7 @@ class SignIn extends React.Component {
 
         }
 
-        this.test = this.test.bind(this);
+        this.getUser = this.getUser.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.regPage = this.regPage.bind(this);
 
@@ -35,13 +36,15 @@ class SignIn extends React.Component {
         });
     }
 
-    test(e) {
+    getUser(e) {
         e.preventDefault();
 
         this.props.authenticate(this.state.empId, this.state.pw);
-        
-        //console.log(this.props);
 
+        setTimeout(() => {
+            { this.props.employee ? this.props.history.push(`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`) : <NotFound /> }
+        }, 1500);
+        
     }
 
     regPage() {
@@ -107,6 +110,7 @@ class SignIn extends React.Component {
                             label="Employee ID"
                             name="empId"
                             onChange={this.handleInput}
+                            autoFocus
 
                         />
 
@@ -122,14 +126,14 @@ class SignIn extends React.Component {
 
                         />
 
-                        <Button color="success" block onClick={this.test}>
-                            Find Me
+                        <Button color="success" block onClick={this.getUser}>
+                            Sign In
                         </Button>
                         
 
                         <Grid container>
                             <Grid item xs>
-                                <Button color="link" href="#" onClick={this.regPage}>
+                                <Button color="link"  block onClick={this.regPage}>
                                     Create an account
                                 </Button>
                             </Grid>
@@ -141,4 +145,4 @@ class SignIn extends React.Component {
         );
     }
 }
-export default withRouter(connect(state => state.employee, EmployeeStore.actionCreators)(SignIn));
+export default withRouter(connect(state => state.employee, EmployeeStore.actionCreators)(LogIn));

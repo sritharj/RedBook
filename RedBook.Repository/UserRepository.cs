@@ -16,23 +16,6 @@ namespace RedBook.Repository
         {
             _config = config;
         }
-        public User GetUser(int empId)
-        {
-            const string sql = @"SELECT * FROM Users WHERE EmpId = @empId";
-
-            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
-            {
-                cn.Open();
-                var user = cn.Query(sql, new { empId });
-
-                return user.Select(x => new User
-                {
-                    EmpId = x.EmpId,
-                    Password = x.Password
-
-                }).SingleOrDefault();
-            }
-        }
 
         public User Authenticate(int empId, string pw)
         {
@@ -49,6 +32,27 @@ namespace RedBook.Repository
                 return result.Select(x => new User
                 {
                     EmpId = x.EmpId
+
+                }).SingleOrDefault();
+            }
+        }
+
+        public UserInfo Find(int empId)
+        {
+            const string sqlEmp = @"SELECT * FROM Employees WHERE EmpId = @empId";
+
+            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
+            {
+                cn.Open();
+                var result = cn.Query(sqlEmp, new { empId });
+                if (result == null) return null;
+
+                return result.Select(e => new UserInfo
+                {
+                    EmpId = e.EmpId,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Role = e.UserType
 
                 }).SingleOrDefault();
             }

@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\Content\Login\index.js~RFac26bd8e.TMP" />
     <None Remove="ClientApp\store\EmployeeStore.js~RF8876d5a0.TMP" />
     <None Remove="ClientApp\store\EmployeeStore.js~RF88f6100f.TMP" />
   </ItemGroup>

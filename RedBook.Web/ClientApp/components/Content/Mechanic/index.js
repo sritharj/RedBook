@@ -11,12 +11,13 @@ class Mechanic extends React.Component {
 
 
     render() {
+        var empStor = JSON.parse(sessionStorage.getItem('emp'));
 
         return (
-            this.props.employee.empId ?
+            empStor != null && parseInt(this.props.match.params.empId, 10) === empStor.empId ?
                 <div>
-                    <h1> {this.props.employee.userInfo.role} Dashboard </h1>
-                    <h2> Welcome {this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName} </h2>
+                    <h1> Mechanic Dashboard </h1>
+                    <h2> Welcome {empStor.userInfo.firstName} {empStor.userInfo.firstName} </h2>
                 </div>
                 
                 :

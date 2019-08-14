@@ -1,15 +1,15 @@
 ﻿import 'isomorphic-fetch';
 
 const defaultState = {
-    employee: {},
+    employee: JSON.parse(sessionStorage.getItem('emp')),
     success: false,
     loading: false
 };
 
 export const actionCreators = {
-    
+
     authenticate: (empId, password) => (dispatch) => {
-        
+
         const req = { empId: empId, password: password }
 
         const obj = Object.assign({}, req);
@@ -26,14 +26,14 @@ export const actionCreators = {
                         .then(data => {
                             dispatch({
                                 type: 'EMP_LOGIN_COMPLETE',
-                                emp: data, success: true
+                                emp: sessionStorage.setItem('emp', JSON.stringify(data)),
+                                success: true
                             });
+                            //sessionStorage.setItem('emp', JSON.stringify(data))
                         });
-
-
                 }
                 if (response.status >= 400) {
-                    dispatch({ type: 'EMP_LOGIN_COMPLETE', emp: null, success: false });
+                    dispatch({ type: 'EMP_LOGIN_COMPLETE', emp: false, success: false });
                     alert('Login Failed. Please Try Again');
                 }
 
@@ -55,11 +55,10 @@ export const reducer = (state, action) => {
             return Object.assign({}, state, { success: true });
         case 'EMP_LOGIN_COMPLETE':
             return Object.assign({}, state, {
-                employee: action.emp,
+                employee: JSON.parse(sessionStorage.getItem('emp')),
                 success: false
-
             });
-
+            
     }
     return state || defaultState;
 };

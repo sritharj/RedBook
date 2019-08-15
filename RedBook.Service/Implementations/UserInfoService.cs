@@ -3,6 +3,7 @@ using RedBook.Model.Interfaces;
 using RedBook.Service.Interfaces;
 using RedBook.Service.Requests;
 using RedBook.Service.Responses;
+using System;
 
 namespace RedBook.Service.Implementations
 {
@@ -29,6 +30,22 @@ namespace RedBook.Service.Implementations
             response.User = data;
             response.Success = true;
 
+            return response;
+        }
+
+        public BaseResponse Register(RegUserRequest request)
+        {
+            var response = new BaseResponse();
+
+            try
+            {
+                _userRepo.Register(request.EmpId, request.Password, request.First, request.Last, request.Role);
+                response.Success = true;
+            }
+            catch(Exception ex)
+            {
+                response.AddMessage(ex.Message);
+            }
             return response;
         }
     }

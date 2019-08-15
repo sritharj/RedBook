@@ -12,8 +12,4 @@
     <ProjectReference Include="..\RedBook.Model\RedBook.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Requests\" />
-  </ItemGroup>
-
 </Project>

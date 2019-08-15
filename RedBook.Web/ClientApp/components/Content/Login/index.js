@@ -1,15 +1,9 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Redirect } from 'react-router';
-//import { Form, FormGroup, Label, Input, Button, Col, Row } from 'reactstrap';
 import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { Container, TextField } from '@material-ui/core';
-import Driver from '../Driver';
-//import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-//import TextField from '@material-ui/core/TextField';
-//import Grid from '@material-ui/core/Grid';
 
 //use pass123 for password when testing
 //hide pass in connection string
@@ -34,11 +28,11 @@ class LogIn extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.employee !== prevProps.employee) {
 
-            this.props.employee ? this.props.history.push(`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`) : null
+            this.props.history.push(`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`);
 
         }
     }
-
+    
     handleInput(e) {
         const prop = e.target.name;
         this.setState({
@@ -51,14 +45,14 @@ class LogIn extends React.Component {
     }
 
     regPage() {
-        console.log(this.props);
+        this.props.history.push('/Register');
 
     }
 
     render() {
 
         return (
-            sessionStorage.length == 0 ?
+
             <Container component="main" maxWidth="xs" >
                 <div>
                     <form noValidate>
@@ -97,8 +91,6 @@ class LogIn extends React.Component {
                     </form>
                 </div>
             </Container>
-                :
-                <Driver />
         );
     }
 }

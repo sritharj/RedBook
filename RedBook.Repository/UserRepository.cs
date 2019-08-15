@@ -57,5 +57,21 @@ namespace RedBook.Repository
                 }).SingleOrDefault();
             }
         }
+
+        public void Register(int empId, string pw, string first, string last, string role)
+        {
+            const string sqlReg = @"INSERT INTO Users (EmpId, Password)
+                                    SELECT EmpId, HASHBYTES('SHA2_256', '@pw' + Slt)
+                                    FROM Employees
+                                    WHERE EmpId = @empId AND FirstName = @first AND LastName = @last AND UserType = @role";
+
+            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
+            {
+                cn.Open();
+                var result = cn.Execute(sqlReg, new { empId, pw, first, last, role });
+
+            }
+        }
+
     }
 }

@@ -8,9 +8,12 @@ class ViewReports extends React.Component {
 
     }
 
+    componentDidMount() {
+        this.props.employee != null ? null : this.props.history.replace('/')
+    }
 
     render() {
-
+        //console.log(this.props);
         return (
 
             <div>

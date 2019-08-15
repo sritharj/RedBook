@@ -1,49 +1,58 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import NotFound from '../NotFound';
 import { DescriptionOutlined, FolderOpenOutlined } from '@material-ui/icons';
-import { Card, CardTitle } from 'reactstrap'
+import { Card, CardTitle, Button } from 'reactstrap'
 
 class Driver extends React.Component {
     constructor(props) {
         super(props);
 
-        this.test = this.test.bind(this);
+        this.fileRep = this.fileRep.bind(this);
+        this.viewRep = this.viewRep.bind(this);
+        this.signOut = this.signOut.bind(this);
     }
 
-    test() {
+    signOut() {
+        this.props.signOut();
+    }
 
-        this.props.history.push(`${this.props.history.location.pathname}/ViewReports`);
+    fileRep() {
+        this.props.history.push(`${this.props.match.url}/FileReport`);
+    }
+
+    viewRep() {
+        this.props.history.push(`${this.props.match.url}/ViewReports`);
+
     }
 
     render() {
 
-        //console.log(this.props.match.params.empId);
-        //var empStor = JSON.parse(sessionStorage.getItem('emp'));
-        //console.log(this.props)
-
         return (
-            
-            this.props.employee != null && parseInt(this.props.match.params.empId, 10) === this.props.employee.empId ?
+            this.props.employee != null ?
                 <div>
+                    <Button className="float-right" outline color="danger" onClick={this.signOut}>
+                        Sign Out
+                        </Button>
                     <h1> Driver Dashboard </h1>
-                    <h2> Welcome </h2>
+
+                    <h2> Welcome {this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</h2>
+
                     <br />
 
                     <div className="row justify-content-md-center">
                         <div className="col-md-3">
-                            <Card body onClick={this.test}>
+                            <Card body onClick={this.fileRep}>
                                 <CardTitle className="text-center">
                                     <DescriptionOutlined />
-                                    <h2 style={{marginTop: '3rem'}}>File Report</h2>
+                                    <h2 style={{ marginTop: '3rem' }}>File Report</h2>
                                 </CardTitle>
                             </Card>
                         </div>
 
                         <div className="col-md-3">
-                            <Card body>
+                            <Card body onClick={this.viewRep}>
                                 <CardTitle className="text-center">
                                     <FolderOpenOutlined />
                                     <h2 style={{ marginTop: '3rem' }}>View Reports</h2>
@@ -54,9 +63,7 @@ class Driver extends React.Component {
                 </div>
 
                 :
-
-                <NotFound />
-
+                <Redirect to='/' />
         );
 
     }

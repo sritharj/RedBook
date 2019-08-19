@@ -37,10 +37,15 @@ namespace RedBook.Service.Implementations
         {
             var response = new BaseResponse();
 
+
             try
             {
-                _userRepo.Register(request.EmpId, request.Password, request.First, request.Last, request.Role);
-                response.Success = true;
+                if (_userRepo.Check(request.EmpId, request.First, request.Last, request.Role) != null)
+                {
+                    _userRepo.Register(request.EmpId, request.Password);
+                    response.Success = true;
+                };
+
             }
             catch(Exception ex)
             {

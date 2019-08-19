@@ -36,7 +36,7 @@ namespace RedBook.Repository
                 }).SingleOrDefault();
             }
         }
-
+        
         public UserInfo Find(int empId)
         {
             const string sqlEmp = @"SELECT * FROM Employees WHERE EmpId = @empId";
@@ -57,19 +57,39 @@ namespace RedBook.Repository
                 }).SingleOrDefault();
             }
         }
-
-        public void Register(int empId, string pw, string first, string last, string role)
+        
+        public void Register(int empId, string pw)
         {
+            //const string sqlReg = @"RegisterEmployee";
             const string sqlReg = @"INSERT INTO Users (EmpId, Password)
-                                    SELECT EmpId, HASHBYTES('SHA2_256', '@pw' + Slt)
-                                    FROM Employees
-                                    WHERE EmpId = @empId AND FirstName = @first AND LastName = @last AND UserType = @role";
+                                    VALUES (@empId, @pw)"; //convert pw to hash
 
             using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
             {
                 cn.Open();
-                var result = cn.Execute(sqlReg, new { empId, pw, first, last, role });
+                cn.Execute(sqlReg, new { empId, pw });
 
+            }
+        }
+
+        public UserInfo Check(int empId, string first, string last, string role)
+        {
+            const string sqlEmpCheck = @"SELECT EmpId FROM Employees WHERE EmpId = @empId AND FirstName = @first AND LastName = @last AND UserType = @role";
+
+            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
+            {
+                cn.Open();
+                var result = cn.Query(sqlEmpCheck, new { empId, first, last, role });
+                if (result == null) return null;
+
+                return result.Select(e => new UserInfo
+                {
+                    EmpId = e.EmpId,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Role = e.UserType
+
+                }).SingleOrDefault();
             }
         }
 

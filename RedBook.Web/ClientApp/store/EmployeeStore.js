@@ -67,11 +67,10 @@ export const actionCreators = {
             .then(response => {
                 if (response.status === 200) {
                     dispatch({ type: 'REG_USER_COMPLETE', req: req, success: true });
-                    console.log(response);
                 }
                 if (response.status >= 400) {
                     dispatch({ type: 'REG_USER_COMPLETE', success: false });
-                    alert('Error could not update');
+                    alert('Error, registration failed');
                 }
             }).catch(err => {
                 dispatch({ type: 'REG_USER_COMPLETE', success: false });
@@ -100,13 +99,11 @@ export const reducer = (state, action) => {
             });
         case 'REG_USER':
             return Object.assign({}, state, {
-                req: action.req,
                 success: true
             });
         case 'REG_USER_COMPLETE':
             if (action.success) {
                 return Object.assign({}, state, {
-                    req: null,
                     success: false
                 });
             }

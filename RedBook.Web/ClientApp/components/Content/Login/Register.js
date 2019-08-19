@@ -5,6 +5,7 @@ import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { Container, TextField, MenuItem } from '@material-ui/core';
 
+
 const roles = [
     {
         value: 'Driver',
@@ -26,7 +27,8 @@ class Register extends React.Component {
             firstName: '',
             lastName: '',
             role: '',
-            pw: ''
+            pw: '',
+            confPW: ''
 
         }
         this.register = this.register.bind(this);
@@ -42,8 +44,14 @@ class Register extends React.Component {
     }
 
     register() {
-        console.log(this.state);
-        this.props.register(this.state.empId, this.state.pw, this.state.firstName, this.state.lastName, this.state.role);
+        const { pw, confPW } = this.state;
+        if (pw !== confPW) {
+            alert("Passwords do not match");
+        } else {
+            this.props.register(this.state.empId, this.state.pw, this.state.firstName, this.state.lastName, this.state.role);
+
+        }
+
     }
 
     render() {
@@ -74,7 +82,6 @@ class Register extends React.Component {
                             name="firstName"
                             onChange={this.handleInput}
 
-
                         />
                         <TextField
                             variant="outlined"
@@ -84,7 +91,6 @@ class Register extends React.Component {
                             label="Last Name"
                             name="lastName"
                             onChange={this.handleInput}
-
 
                         />
                         <TextField
@@ -117,7 +123,17 @@ class Register extends React.Component {
                             type="password"
                             id="pw"
                             onChange={this.handleInput}
-                            
+
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            name="confPW"
+                            label="Confirm Password"
+                            type="password"
+                            id="confPW"
+                            onChange={this.handleInput}
 
                         />
 

@@ -61,8 +61,10 @@ namespace RedBook.Repository
         public void Register(int empId, string pw)
         {
             //const string sqlReg = @"RegisterEmployee";
-            const string sqlReg = @"INSERT INTO Users (EmpId, Password)
-                                    VALUES (@empId, @pw)"; //convert pw to hash
+            const string sqlReg = @"INSERT INTO Users (EmpId, Password) 
+                                    SELECT EmpId, HASHBYTES('SHA2_256', @pw + Slt)
+                                      FROM Employees
+                                     WHERE EmpId = @empId";
 
             using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
             {

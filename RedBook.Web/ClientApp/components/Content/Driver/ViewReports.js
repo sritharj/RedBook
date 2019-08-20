@@ -17,7 +17,8 @@ class ViewReports extends React.Component {
         return (
 
             <div>
-                <h1> Viewing Reports </h1>
+                <h1> View Reports </h1>
+
             </div>
         );
 

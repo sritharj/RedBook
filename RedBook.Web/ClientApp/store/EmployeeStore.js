@@ -47,7 +47,7 @@ export const actionCreators = {
 
     signOut: () => (dispatch) => {
         if (sessionStorage.getItem('emp') != null) {
-            dispatch({ type: 'EMP_SIGNOUT', emp: null });
+            dispatch({ type: 'EMP_SIGNOUT', emp: null, success: false });
             sessionStorage.clear();
         }
 
@@ -67,6 +67,7 @@ export const actionCreators = {
             .then(response => {
                 if (response.status === 200) {
                     dispatch({ type: 'REG_USER_COMPLETE', req: req, success: true });
+                    alert('Registration Successful');
                 }
                 if (response.status >= 400) {
                     dispatch({ type: 'REG_USER_COMPLETE', success: false });
@@ -85,17 +86,24 @@ export const actionCreators = {
 export const reducer = (state, action) => {
     switch (action.type) {
 
-
         case 'EMP_LOGIN':
             return Object.assign({}, state, { success: true });
         case 'EMP_LOGIN_COMPLETE':
-            return Object.assign({}, state, {
-                employee: JSON.parse(sessionStorage.getItem('emp')),
-                success: false
-            });
+            if (action.success) {
+                return Object.assign({}, state, {
+                    employee: JSON.parse(sessionStorage.getItem('emp')),
+                    success: true
+                });
+            }
+            else {
+                return Object.assign({}, state, {
+                    success: false
+                });
+            }
         case 'EMP_SIGNOUT':
             return Object.assign({}, state, {
-                employee: action.emp
+                employee: action.emp,
+                success: false
             });
         case 'REG_USER':
             return Object.assign({}, state, {

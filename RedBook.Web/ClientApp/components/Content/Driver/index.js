@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { DescriptionOutlined, FolderOpenOutlined } from '@material-ui/icons';
-import { Card, CardTitle, Button } from 'reactstrap'
+import { Container } from '@material-ui/core';
+import { Card, CardTitle, Button } from 'reactstrap';
 
 class Driver extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class Driver extends React.Component {
         return (
             this.props.employee != null ?
                 <div>
+
                     <Button className="float-right" outline color="danger" onClick={this.signOut}>
                         Sign Out
                         </Button>
@@ -45,7 +47,7 @@ class Driver extends React.Component {
                         <div className="col-md-3">
                             <Card body onClick={this.fileRep}>
                                 <CardTitle className="text-center">
-                                    <DescriptionOutlined />
+                                    <DescriptionOutlined style={{ fontSize: '100px' }} />
                                     <h2 style={{ marginTop: '3rem' }}>File Report</h2>
                                 </CardTitle>
                             </Card>
@@ -54,14 +56,14 @@ class Driver extends React.Component {
                         <div className="col-md-3">
                             <Card body onClick={this.viewRep}>
                                 <CardTitle className="text-center">
-                                    <FolderOpenOutlined />
+                                    <FolderOpenOutlined style={{ fontSize: '100px' }} />
                                     <h2 style={{ marginTop: '3rem' }}>View Reports</h2>
                                 </CardTitle>
                             </Card>
                         </div>
                     </div>
-                </div>
 
+                </div>
                 :
                 <Redirect to='/' />
         );

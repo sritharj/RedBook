@@ -36,6 +36,13 @@ class Register extends React.Component {
 
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.success !== prevProps.success) {
+            this.props.history.push('/');
+
+        }
+    }
+
     handleInput(e) {
         const prop = e.target.name;
         this.setState({

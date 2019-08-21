@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import { Container, TextField } from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 //use pass123 for password when testing
 //hide pass in connection string
@@ -14,7 +15,7 @@ class LogIn extends React.Component {
 
         this.state = {
 
-            empId: null,
+            empId: '',
             pw: ''
 
         }
@@ -55,8 +56,8 @@ class LogIn extends React.Component {
 
             <Container component="main" maxWidth="xs" >
                 <div>
-                    <form noValidate>
-                        <TextField
+                    <ValidatorForm onSubmit={this.getUser}>
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -64,11 +65,14 @@ class LogIn extends React.Component {
                             label="Employee ID"
                             name="empId"
                             onChange={this.handleInput}
+                            validators={['required']}
+                            errorMessages={['Employee ID required']}
+                            value={this.state.empId}
                             autoFocus
 
                         />
 
-                        <TextField
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -77,18 +81,22 @@ class LogIn extends React.Component {
                             type="password"
                             id="pw"
                             onChange={this.handleInput}
+                            validators={['required']}
+                            errorMessages={['Password required']}
+                            value={this.state.pw}
 
                         />
 
-                        <Button color="success" block onClick={this.getUser}>
+                        <Button color="success" block type="submit">
                             Sign In
                         </Button>
                         <br />
-                        <Button color="link" block onClick={this.regPage}>
-                            Create an account
-                        </Button>
 
-                    </form>
+                    </ValidatorForm>
+                    
+                    <Button color="link" block onClick={this.regPage}>
+                        Create an account
+                    </Button>
                 </div>
             </Container>
         );

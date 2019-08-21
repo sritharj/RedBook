@@ -3,7 +3,7 @@
 const defaultState = {
     employee: JSON.parse(sessionStorage.getItem('emp')),
     success: false,
-    loading: false
+    loading: false,
 };
 
 export const actionCreators = {
@@ -92,7 +92,7 @@ export const reducer = (state, action) => {
             if (action.success) {
                 return Object.assign({}, state, {
                     employee: JSON.parse(sessionStorage.getItem('emp')),
-                    success: true
+                    success: false
                 });
             }
             else {

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { DescriptionOutlined, FolderOpenOutlined } from '@material-ui/icons';
-import { Container } from '@material-ui/core';
-import { Card, CardTitle, Button } from 'reactstrap';
+import { Card, CardTitle } from 'reactstrap';
 
 class Driver extends React.Component {
     constructor(props) {
@@ -12,11 +11,6 @@ class Driver extends React.Component {
 
         this.fileRep = this.fileRep.bind(this);
         this.viewRep = this.viewRep.bind(this);
-        this.signOut = this.signOut.bind(this);
-    }
-
-    signOut() {
-        this.props.signOut();
     }
 
     fileRep() {
@@ -33,22 +27,16 @@ class Driver extends React.Component {
         return (
             this.props.employee != null ?
                 <div>
-
-                    <Button className="float-right" outline color="danger" onClick={this.signOut}>
-                        Sign Out
-                        </Button>
                     <h1> Driver Dashboard </h1>
-
-                    <h2> Welcome {this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</h2>
 
                     <br />
 
                     <div className="row justify-content-md-center">
                         <div className="col-md-3">
-                            <Card body onClick={this.fileRep}>
+                            <Card body className="text-dark bg-light"onClick={this.fileRep}>
                                 <CardTitle className="text-center">
                                     <DescriptionOutlined style={{ fontSize: '100px' }} />
-                                    <h2 style={{ marginTop: '3rem' }}>File Report</h2>
+                                    <h2>File Report</h2>
                                 </CardTitle>
                             </Card>
                         </div>

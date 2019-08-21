@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import { Container, TextField, MenuItem } from '@material-ui/core';
-
+import { Container, MenuItem } from '@material-ui/core';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const roles = [
     {
@@ -23,7 +23,7 @@ class Register extends React.Component {
 
         this.state = {
 
-            empId: null,
+            empId: '',
             firstName: '',
             lastName: '',
             role: '',
@@ -34,6 +34,19 @@ class Register extends React.Component {
         this.register = this.register.bind(this);
         this.handleInput = this.handleInput.bind(this);
 
+    }
+
+    componentDidMount() {
+        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+            if (value !== this.state.pw) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    componentWillUnmount() {
+        ValidatorForm.removeValidationRule('isPasswordMatch');
     }
 
     componentDidUpdate(prevProps) {
@@ -51,13 +64,7 @@ class Register extends React.Component {
     }
 
     register() {
-        const { pw, confPW } = this.state;
-        if (pw !== confPW) {
-            alert("Passwords do not match");
-        } else {
-            this.props.register(this.state.empId, this.state.pw, this.state.firstName, this.state.lastName, this.state.role);
-
-        }
+        this.props.register(this.state.empId, this.state.pw, this.state.firstName, this.state.lastName, this.state.role);
 
     }
 
@@ -68,8 +75,8 @@ class Register extends React.Component {
             <Container component="main" maxWidth="xs" >
                 <div>
                     <h1 className="text-center">Create an account</h1>
-                    <form noValidate>
-                        <TextField
+                    <ValidatorForm onSubmit={this.register}>
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -77,10 +84,13 @@ class Register extends React.Component {
                             label="Employee ID"
                             name="empId"
                             onChange={this.handleInput}
+                            validators={['required']}
+                            errorMessages={['Employee ID required']}
+                            value={this.state.empId}
                             autoFocus
 
                         />
-                        <TextField
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -88,9 +98,12 @@ class Register extends React.Component {
                             label="First Name"
                             name="firstName"
                             onChange={this.handleInput}
+                            validators={['required']}
+                            errorMessages={['First Name required']}
+                            value={this.state.firstName}
 
                         />
-                        <TextField
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -98,9 +111,12 @@ class Register extends React.Component {
                             label="Last Name"
                             name="lastName"
                             onChange={this.handleInput}
+                            validators={['required']}
+                            errorMessages={['Last Name required']}
+                            value={this.state.lastName}
 
                         />
-                        <TextField
+                        <TextValidator
                             id="outlined-select"
                             fullWidth
                             name="role"
@@ -110,6 +126,8 @@ class Register extends React.Component {
                             value={this.state.role}
                             margin="normal"
                             variant="outlined"
+                            validators={['required']}
+                            errorMessages={['Role required']}
                             
                         >
 
@@ -119,9 +137,9 @@ class Register extends React.Component {
                                 </MenuItem>
                             ))}
 
-                        </TextField>
+                        </TextValidator>
 
-                        <TextField
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -130,9 +148,12 @@ class Register extends React.Component {
                             type="password"
                             id="pw"
                             onChange={this.handleInput}
+                            validators={['required']}
+                            errorMessages={['Password required']}
+                            value={this.state.pw}
 
                         />
-                        <TextField
+                        <TextValidator
                             variant="outlined"
                             margin="normal"
                             fullWidth
@@ -141,14 +162,17 @@ class Register extends React.Component {
                             type="password"
                             id="confPW"
                             onChange={this.handleInput}
+                            validators={['isPasswordMatch', 'required']}
+                            errorMessages={['Passwords do not match', 'Password confirmation required']}
+                            value={this.state.confPW}
 
                         />
 
-                        <Button color="success" block onClick={this.register}>
+                        <Button color="success" block type="submit">
                             Register
                         </Button>
 
-                    </form>
+                    </ValidatorForm>
                 </div>
             </Container>
         );

@@ -3,7 +3,6 @@
 }
 
 .card-body {
-    background-color: rgba(68, 68, 68, 0.15);
     width: 21rem;
     height: 23.5rem;
     margin: 20px auto;
@@ -15,9 +14,10 @@
         background-color: rgba(68, 68, 68, 0.08);
 
     }
+    
 
-.card-title {
+/*.card-title {
     margin-top: 6.5rem;
     color: black;
 }
-
+*/

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { DescriptionOutlined, FolderOpenOutlined } from '@material-ui/icons';
+import { Container } from '@material-ui/core';
 import { Card, CardTitle } from 'reactstrap';
 
 class Driver extends React.Component {
@@ -26,32 +27,31 @@ class Driver extends React.Component {
 
         return (
             this.props.employee != null ?
-                <div>
+                <Container maxWidth="md">
                     <h1> Driver Dashboard </h1>
 
                     <br />
 
                     <div className="row justify-content-md-center">
-                        <div className="col-md-3">
-                            <Card body className="text-dark bg-light"onClick={this.fileRep}>
-                                <CardTitle className="text-center">
-                                    <DescriptionOutlined style={{ fontSize: '100px' }} />
-                                    <h2>File Report</h2>
-                                </CardTitle>
-                            </Card>
+                        <div className="col-md-auto">
+                        <Card id="btnFile" body outline color="primary" onClick={this.fileRep}>
+                            <CardTitle className="text-center">
+                                <DescriptionOutlined style={{ fontSize: '100px' }} />
+                                <h3>File Report</h3>
+                            </CardTitle>
+                        </Card>
                         </div>
-
-                        <div className="col-md-3">
-                            <Card body onClick={this.viewRep}>
-                                <CardTitle className="text-center">
-                                    <FolderOpenOutlined style={{ fontSize: '100px' }} />
-                                    <h2 style={{ marginTop: '3rem' }}>View Reports</h2>
-                                </CardTitle>
-                            </Card>
+                        <div className="col-md-auto">
+                        <Card id="btnView" body outline color="primary" onClick={this.viewRep}>
+                            <CardTitle className="text-center">
+                                <FolderOpenOutlined style={{ fontSize: '100px' }} />
+                                    <h3>View Reports</h3>
+                            </CardTitle>
+                        </Card>
                         </div>
                     </div>
 
-                </div>
+                </Container>
                 :
                 <Redirect to='/' />
         );

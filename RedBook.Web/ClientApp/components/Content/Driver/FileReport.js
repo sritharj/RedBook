@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { TextField, MenuItem, Container } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -15,16 +16,14 @@ const roles = [
         label: 'temp'
     }
 ];
+const d = new Date();
 
 class FileReport extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            empName: this.props.employee.userInfo.firstName + ' ' + this.props.employee.userInfo.lastName,
-            repDate: '',
-            busNo: '',
-            empId: this.props.employee.empId,
-            value: 1
+
+            busNo: ''
 
         }
 
@@ -48,63 +47,68 @@ class FileReport extends React.Component {
     render() {
 
         return (
-            <Container component="main" maxWidth="md">
-            <div>
-                <h1> File Report </h1>
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="empName"
-                    label="Employee Name"
-                    name="empName"
-                    onChange={this.handleInput}
-                    value={this.state.empName}
-                    autoFocus
-                />
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="repDate"
-                        label="Date"
-                        name="repDate"
-                        onChange={this.handleInput}
-                        value={this.state.repDate}
-                    />
-                </MuiPickersUtilsProvider>
-                <TextField
-                    id="outlined-select"
-                    fullWidth
-                    name="busNo"
-                    select
-                    label="Bus No."
-                    onChange={this.handleInput}
-                    value={this.state.busNo}
-                    margin="normal"
-                    variant="outlined"
-                >
+            this.props.employee != null ?
 
-                    {roles.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
+                <Container maxWidth="md">
 
-                </TextField>
+                    <h1> File Report </h1>
+                    <div className="col-md-6">
+                        <TextField
+                            disabled
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            id="empName"
+                            label="Employee Name"
+                            name="empName"
+                            defaultValue={this.props.employee.userInfo.firstName + ' ' + this.props.employee.userInfo.lastName}
+                            autoFocus
+                        />
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="MM/dd/yyyy"
+                                margin="normal"
+                                id="repDate"
+                                label="Date"
+                                name="repDate"
+                                onChange={this.handleInput}
+                                value={this.state.repDate}
+                            />
+                        </MuiPickersUtilsProvider>
+                        <TextField
+                            id="outlined-select"
+                            fullWidth
+                            name="busNo"
+                            select
+                            label="Bus No."
+                            onChange={this.handleInput}
+                            value={this.state.busNo}
+                            margin="normal"
+                            variant="outlined"
+                        >
 
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="empId"
-                    label="Employee ID"
-                    name="empId"
-                    onChange={this.handleInput}
-                    value={this.state.empId}
-                    />
+                            {roles.map(option => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+
+                        </TextField>
+
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            id="empId"
+                            label="Employee ID"
+                            name="empId"
+                            onChange={this.handleInput}
+                            value={this.props.employee.empId}
+                        />
+                    </div>
+                    <br />
                     <div className="card text-center">
                         <div className="card-header">
                             <ul className="nav nav-pills card-header-pills">
@@ -118,9 +122,9 @@ class FileReport extends React.Component {
                                     <a data-toggle="pill" className="nav-link" href="#p3">Page 3</a>
                                 </li>
                             </ul>
-                        </div>  
-                        <div className="tab-content">
-                            <div id="p1" className="tab-pane fade in active">
+                        </div>
+                        <div className="tab-content card-body">
+                            <div id="p1" className="tab-pane fade in active show">
                                 <h3>HOME</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             </div>
@@ -134,9 +138,13 @@ class FileReport extends React.Component {
                             </div>
                         </div>
                     </div>
-                    
-                </div>
+
+
+
                 </Container>
+
+                :
+                <Redirect to='/' />
         );
 
     }

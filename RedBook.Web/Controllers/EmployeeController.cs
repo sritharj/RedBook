@@ -47,5 +47,17 @@ namespace RedBook.Web.Controllers
 
             return BadRequest(resp.Message);
         }
+
+        [HttpGet("busnos")]
+        public IActionResult GetAllBuses()
+        {
+            var resp = _service.GetAllBuses();
+            if (resp.Success)
+            {
+                return Ok(resp.Buses);
+            }
+
+            return BadRequest(resp.Message);
+        }
     }
 }

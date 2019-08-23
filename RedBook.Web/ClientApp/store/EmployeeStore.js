@@ -79,6 +79,28 @@ export const actionCreators = {
                     alert('A network error has occurred - data was not saved. Refresh this page and try again.');
                 }
             });
+    },
+
+    loadBuses: () => (dispatch) => {
+        dispatch({ type: 'REQUEST_BUS_LIST' });
+        const url = `api/employee/busnos`;
+        fetch(url)
+            .then(response => {
+                if (response.status === 200) {
+                    response.json()
+                        .then(data => {
+                            dispatch({
+                                type: 'RECEIVE_BUS_LIST',
+                                buses: sessionStorage.setItem('buses', JSON.stringify(data)),
+                                success: true
+                            });
+                        });
+                }
+                if (response.status >= 400) {
+                    dispatch({ type: 'RECEIVE_BUS_LIST', success: false });
+
+                }
+            });
     }
 
 };
@@ -115,6 +137,13 @@ export const reducer = (state, action) => {
                     success: false
                 });
             }
+        case 'REQUEST_BUS_LIST':
+            return Object.assign({}, state, { success: true });
+        case 'RECEIVE_BUS_LIST':
+            return Object.assign({}, state, {
+                buses: JSON.parse(sessionStorage.getItem('buses')),
+                success: false
+            });
             
     }
     return state || defaultState;

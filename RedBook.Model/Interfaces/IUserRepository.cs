@@ -1,4 +1,6 @@
-﻿namespace RedBook.Model.Interfaces
+﻿using System.Collections.Generic;
+
+namespace RedBook.Model.Interfaces
 {
     public interface IUserRepository
     {
@@ -7,5 +9,7 @@
 
         UserInfo Check(int empId, string first, string last, string role);
         void Register(int empId, string pw);
+
+        List<Bus> FindAll();
     }
 }

@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { TextField, MenuItem, Container } from '@material-ui/core';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { Table } from 'reactstrap';
 
-const roles = [
+const bus = [
     {
-        value: 'test',
-        label: 'test'
+        value: '001',
+        label: 'Bus 001'
     },
     {
-        value: 'temp',
-        label: 'temp'
+        value: '002',
+        label: 'Bus 002'
     }
 ];
+
 const d = new Date();
 
 class FileReport extends React.Component {
@@ -23,6 +23,7 @@ class FileReport extends React.Component {
         super(props);
         this.state = {
 
+            repDate: (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear(),
             busNo: ''
 
         }
@@ -33,7 +34,8 @@ class FileReport extends React.Component {
 
     componentDidMount() {
         this.props.employee != null ? null : this.props.history.replace('/')
-
+        
+        
     }
 
     handleInput(e) {
@@ -41,42 +43,36 @@ class FileReport extends React.Component {
         this.setState({
             [prop]: e.target.value
         });
-        console.log(this.state);
+        console.log(this.props.buses);
     }
 
     render() {
-
+        
         return (
             this.props.employee != null ?
 
                 <Container maxWidth="md">
 
                     <h1> File Report </h1>
+                    <br />
                     <div className="col-md-6">
-                        <TextField
-                            disabled
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            id="empName"
-                            label="Employee Name"
-                            name="empName"
-                            defaultValue={this.props.employee.userInfo.firstName + ' ' + this.props.employee.userInfo.lastName}
-                            autoFocus
-                        />
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="MM/dd/yyyy"
-                                margin="normal"
-                                id="repDate"
-                                label="Date"
-                                name="repDate"
-                                onChange={this.handleInput}
-                                value={this.state.repDate}
-                            />
-                        </MuiPickersUtilsProvider>
+                        <Table borderless>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Employee ID</th>
+                                    <td>{this.props.employee.empId}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Employee Name</th>
+                                    <td>{this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Date</th>
+                                    <td>{this.state.repDate}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                        <Container maxWidth="xs">
                         <TextField
                             id="outlined-select"
                             fullWidth
@@ -89,51 +85,41 @@ class FileReport extends React.Component {
                             variant="outlined"
                         >
 
-                            {roles.map(option => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
+                            {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
+                                <MenuItem key={idx} value={option.busNo}>
+                                    {option.busNo}
                                 </MenuItem>
                             ))}
 
-                        </TextField>
+                            </TextField></Container>
 
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            id="empId"
-                            label="Employee ID"
-                            name="empId"
-                            onChange={this.handleInput}
-                            value={this.props.employee.empId}
-                        />
                     </div>
                     <br />
                     <div className="card text-center">
                         <div className="card-header">
                             <ul className="nav nav-pills card-header-pills">
                                 <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link active" href="#p1">Page 1</a>
+                                    <a data-toggle="pill" className="nav-link active" href="dmg">Damage</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link" href="#p2">Page 2</a>
+                                    <a data-toggle="pill" className="nav-link" href="#cln">Cleaning</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link" href="#p3">Page 3</a>
+                                    <a data-toggle="pill" className="nav-link" href="#tech">Technical</a>
                                 </li>
                             </ul>
                         </div>
                         <div className="tab-content card-body">
-                            <div id="p1" className="tab-pane fade in active show">
-                                <h3>HOME</h3>
+                            <div id="dmg" className="tab-pane fade in active show">
+                                <h3>Damage</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             </div>
-                            <div id="p2" className="tab-pane fade">
-                                <h3>Menu 1</h3>
+                            <div id="cln" className="tab-pane fade">
+                                <h3>Cleaning</h3>
                                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             </div>
-                            <div id="p3" className="tab-pane fade">
-                                <h3>Menu 2</h3>
+                            <div id="tech" className="tab-pane fade">
+                                <h3>Technical</h3>
                                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                             </div>
                         </div>

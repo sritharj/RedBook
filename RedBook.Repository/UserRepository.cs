@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using RedBook.Model;
 using RedBook.Model.Interfaces;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -92,6 +93,26 @@ namespace RedBook.Repository
                     Role = e.UserType
 
                 }).SingleOrDefault();
+            }
+        }
+
+        public List<Bus> FindAll()
+        {
+            const string sql = @"SELECT * FROM BusNos";
+            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
+            {
+                cn.Open();
+                var results = cn.Query(sql).ToList();
+                if (results.Any())
+                {
+                    return results.Select(b => new Bus
+                    {
+                        BusNo = b.BusNo,
+
+                    }).Cast<Bus>().ToList();
+
+                }
+                return Enumerable.Empty<Bus>().ToList();
             }
         }
 

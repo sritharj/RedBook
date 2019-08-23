@@ -4,6 +4,7 @@ using RedBook.Service.Interfaces;
 using RedBook.Service.Requests;
 using RedBook.Service.Responses;
 using System;
+using System.Linq;
 
 namespace RedBook.Service.Implementations
 {
@@ -51,6 +52,17 @@ namespace RedBook.Service.Implementations
             {
                 response.AddMessage(ex.Message);
             }
+            return response;
+        }
+
+        public GetAllBusNoResponse GetAllBuses()
+        {
+            var response = new GetAllBusNoResponse();
+            var data = _userRepo.FindAll();
+
+            response.Buses = data.Select(x => new BusDto(x)).ToList();
+            response.Success = data.Any();
+
             return response;
         }
     }

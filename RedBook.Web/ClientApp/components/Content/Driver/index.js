@@ -14,6 +14,10 @@ class Driver extends React.Component {
         this.viewRep = this.viewRep.bind(this);
     }
 
+    componentDidMount() {
+        this.props.loadBuses();
+    }
+
     fileRep() {
         this.props.history.push(`${this.props.match.url}/FileReport`);
     }

@@ -14,12 +14,16 @@
 }
     
 
-/*.card-title {
-    margin-top: 6.5rem;
-    color: black;
-}
-*/
 
 .col-md-6 {
     padding: 0 !important;
+}
+
+.col-md-4 {
+    padding: 0 !important;
+}
+
+.table, th, td {
+    padding-left: 0px !important;
+    font-size: 1.5rem;
 }

@@ -7,5 +7,7 @@ namespace RedBook.Service.Interfaces
     {
         GetUserResponse Authenticate(GetUserRequest request);
         BaseResponse Register(RegUserRequest request);
+
+        GetAllBusNoResponse GetAllBuses();
     }
 }

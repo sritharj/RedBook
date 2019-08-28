@@ -30,29 +30,27 @@ class Driver extends React.Component {
     render() {
 
         return (
-            this.props.employee != null ?
+            this.props.employee != null && this.props.employee.empId === parseInt(this.props.match.params.empId, 10) ?
                 <Container maxWidth="md">
                     <h1> Driver Dashboard </h1>
 
                     <br />
 
                     <div className="row justify-content-md-center">
-                        <div className="col-md-auto">
+                        
                         <Card id="btnFile" body outline color="primary" onClick={this.fileRep}>
                             <CardTitle className="text-center">
                                 <DescriptionOutlined style={{ fontSize: '100px' }} />
                                 <h3>File Report</h3>
                             </CardTitle>
                         </Card>
-                        </div>
-                        <div className="col-md-auto">
+
                         <Card id="btnView" body outline color="primary" onClick={this.viewRep}>
                             <CardTitle className="text-center">
                                 <FolderOpenOutlined style={{ fontSize: '100px' }} />
                                     <h3>View Reports</h3>
                             </CardTitle>
                         </Card>
-                        </div>
                     </div>
 
                 </Container>

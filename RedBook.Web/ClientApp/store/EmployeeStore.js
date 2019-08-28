@@ -132,11 +132,9 @@ export const reducer = (state, action) => {
                 success: true
             });
         case 'REG_USER_COMPLETE':
-            if (action.success) {
-                return Object.assign({}, state, {
+            return Object.assign({}, state, {
                     success: false
                 });
-            }
         case 'REQUEST_BUS_LIST':
             return Object.assign({}, state, { success: true });
         case 'RECEIVE_BUS_LIST':

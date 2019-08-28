@@ -3,19 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import { Container, MenuItem } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const roles = [
-    {
-        value: 'Driver',
-        label: 'Driver'
-    },
-    {
-        value: 'Mechanic',
-        label: 'Mechanic'
-    }
-];
 
 class Register extends React.Component {
     constructor(props) {
@@ -114,30 +108,20 @@ class Register extends React.Component {
                             validators={['required']}
                             errorMessages={['Last Name required']}
                             value={this.state.lastName}
+                            
 
                         />
-                        <TextValidator
-                            id="outlined-select"
-                            fullWidth
+                        <FormLabel component="legend">Role</FormLabel>
+                        <RadioGroup
+                            aria-label="Role"
                             name="role"
-                            select
-                            label="Role"
-                            onChange={this.handleInput}
                             value={this.state.role}
-                            margin="normal"
-                            variant="outlined"
-                            validators={['required']}
-                            errorMessages={['Role required']}
-                            
+                            onChange={this.handleInput}
+                            row
                         >
-
-                            {roles.map(option => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-
-                        </TextValidator>
+                            <FormControlLabel value="Driver" control={<Radio color="primary" required />} label="Driver" />
+                            <FormControlLabel value="Mechanic" control={<Radio color="primary" required/>} label="Mechanic" />
+                        </RadioGroup>
 
                         <TextValidator
                             variant="outlined"

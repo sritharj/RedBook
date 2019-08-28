@@ -3,17 +3,16 @@
 }
 
 #btnFile, #btnView {
-    width: 21rem;
+    max-width: 21rem;
     cursor: pointer;
     color: #343a40;
+    margin: 5px auto;
 }
 
 #btnFile:hover, #btnView:hover {
     background-color: #007bff;
     color: white !important;
 }
-    
-
 
 .col-md-6 {
     padding: 0 !important;

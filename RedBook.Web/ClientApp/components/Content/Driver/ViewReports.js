@@ -16,10 +16,10 @@ class ViewReports extends React.Component {
         //console.log(this.props);
         return (
 
-            <div>
+            <Container maxWidth="md">
                 <h1> View Reports </h1>
 
-            </div>
+            </Container>
         );
 
     }

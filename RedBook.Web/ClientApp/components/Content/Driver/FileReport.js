@@ -5,17 +5,6 @@ import * as EmployeeStore from '../../../store/EmployeeStore';
 import { TextField, MenuItem, Container } from '@material-ui/core';
 import { Table } from 'reactstrap';
 
-const bus = [
-    {
-        value: '001',
-        label: 'Bus 001'
-    },
-    {
-        value: '002',
-        label: 'Bus 002'
-    }
-];
-
 const d = new Date();
 
 class FileReport extends React.Component {
@@ -23,7 +12,7 @@ class FileReport extends React.Component {
         super(props);
         this.state = {
 
-            repDate: (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear(),
+            repDate: (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear(),
             busNo: ''
 
         }
@@ -34,8 +23,8 @@ class FileReport extends React.Component {
 
     componentDidMount() {
         this.props.employee != null ? null : this.props.history.replace('/')
-        
-        
+        console.log(this.props);
+
     }
 
     handleInput(e) {
@@ -47,9 +36,9 @@ class FileReport extends React.Component {
     }
 
     render() {
-        
+
         return (
-            this.props.employee != null ?
+            this.props.employee != null && this.props.employee.empId === parseInt(this.props.match.params.empId, 10) ?
 
                 <Container maxWidth="md">
 
@@ -72,24 +61,24 @@ class FileReport extends React.Component {
                                 </tr>
                             </tbody>
                         </Table>
-                        <Container maxWidth="xs">
-                        <TextField
-                            id="outlined-select"
-                            fullWidth
-                            name="busNo"
-                            select
-                            label="Bus No."
-                            onChange={this.handleInput}
-                            value={this.state.busNo}
-                            margin="normal"
-                            variant="outlined"
-                        >
+                        <Container maxWidth="xs" style={{padding: '0px'}}>
+                            <TextField
+                                id="outlined-select"
+                                name="busNo"
+                                select
+                                label="Bus No."
+                                onChange={this.handleInput}
+                                value={this.state.busNo}
+                                margin="normal"
+                                variant="outlined"
+                                fullWidth
+                            >
 
-                            {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
-                                <MenuItem key={idx} value={option.busNo}>
-                                    {option.busNo}
-                                </MenuItem>
-                            ))}
+                                {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
+                                    <MenuItem key={idx} value={option.busNo}>
+                                        {option.busNo}
+                                    </MenuItem>
+                                ))}
 
                             </TextField></Container>
 
@@ -99,13 +88,13 @@ class FileReport extends React.Component {
                         <div className="card-header">
                             <ul className="nav nav-pills card-header-pills">
                                 <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link active" href="dmg">Damage</a>
+                                    <a data-toggle="pill" className="nav-link active" href="#dmg">Damage</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link" href="#cln">Cleaning</a>
+                                    <a data-toggle="pill" className="nav-link" href="#mnt">Maintenance</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link" href="#tech">Technical</a>
+                                    <a data-toggle="pill" className="nav-link" href="#tech">Cleaning</a>
                                 </li>
                             </ul>
                         </div>
@@ -114,8 +103,8 @@ class FileReport extends React.Component {
                                 <h3>Damage</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             </div>
-                            <div id="cln" className="tab-pane fade">
-                                <h3>Cleaning</h3>
+                            <div id="mnt" className="tab-pane fade">
+                                <h3>Maintenance</h3>
                                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             </div>
                             <div id="tech" className="tab-pane fade">
@@ -125,11 +114,10 @@ class FileReport extends React.Component {
                         </div>
                     </div>
 
-
-
                 </Container>
 
                 :
+
                 <Redirect to='/' />
         );
 

@@ -1,5 +1,7 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 
 class ViewReports extends React.Component {
@@ -8,18 +10,16 @@ class ViewReports extends React.Component {
 
     }
 
-    componentDidMount() {
-        this.props.employee != null ? null : this.props.history.replace('/')
-    }
-
     render() {
-        //console.log(this.props);
+
         return (
+            this.props.employee !== null && this.props.employee.empId == this.props.match.params.empId ?
 
             <Container maxWidth="md">
                 <h1> View Reports </h1>
-
             </Container>
+                :
+            <Redirect to="/" />
         );
 
     }

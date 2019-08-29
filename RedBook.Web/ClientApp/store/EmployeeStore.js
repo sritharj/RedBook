@@ -49,6 +49,7 @@ export const actionCreators = {
         if (sessionStorage.getItem('emp') != null) {
             dispatch({ type: 'EMP_SIGNOUT', emp: null, success: false });
             sessionStorage.clear();
+            
         }
 
     },

@@ -1,6 +1,6 @@
 ﻿import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
-import 'react-widgets/dist/css/react-widgets.css';
+//import 'react-widgets/dist/css/react-widgets.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

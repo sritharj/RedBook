@@ -9,7 +9,6 @@ class Mechanic extends React.Component {
 
     }
 
-
     render() {
         var empStor = JSON.parse(sessionStorage.getItem('emp'));
 

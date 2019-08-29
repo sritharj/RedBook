@@ -2,10 +2,13 @@
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import { TextField, MenuItem, Container } from '@material-ui/core';
+import { MenuItem, Container, Select, OutlinedInput } from '@material-ui/core';
+import { Button } from 'reactstrap';
+import { ExpandMore } from '@material-ui/icons';
 import { Table } from 'reactstrap';
 
 const d = new Date();
+
 
 class FileReport extends React.Component {
     constructor(props) {
@@ -18,12 +21,8 @@ class FileReport extends React.Component {
         }
 
         this.handleInput = this.handleInput.bind(this);
-
-    }
-
-    componentDidMount() {
-        this.props.employee != null ? null : this.props.history.replace('/')
-        console.log(this.props);
+        this.cancelRep = this.cancelRep.bind(this);
+        this.sendRep = this.sendRep.bind(this);
 
     }
 
@@ -32,13 +31,21 @@ class FileReport extends React.Component {
         this.setState({
             [prop]: e.target.value
         });
-        console.log(this.props.buses);
+
+    }
+
+    sendRep() {
+        console.log(this.state);
+    }
+
+    cancelRep() {
+        console.log('cancelling');
     }
 
     render() {
 
         return (
-            this.props.employee != null && this.props.employee.empId === parseInt(this.props.match.params.empId, 10) ?
+            this.props.employee !== null && this.props.employee.empId == this.props.match.params.empId ?
 
                 <Container maxWidth="md">
 
@@ -48,39 +55,42 @@ class FileReport extends React.Component {
                         <Table borderless>
                             <tbody>
                                 <tr>
-                                    <th scope="row">Employee ID</th>
+                                    <td scope="row">Employee ID</td>
                                     <td>{this.props.employee.empId}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Employee Name</th>
+                                    <td scope="row">Employee Name</td>
                                     <td>{this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Date</th>
+                                    <td scope="row">Date</td>
                                     <td>{this.state.repDate}</td>
                                 </tr>
                             </tbody>
                         </Table>
-                        <Container maxWidth="xs" style={{padding: '0px'}}>
-                            <TextField
-                                id="outlined-select"
-                                name="busNo"
-                                select
-                                label="Bus No."
-                                onChange={this.handleInput}
-                                value={this.state.busNo}
-                                margin="normal"
-                                variant="outlined"
-                                fullWidth
-                            >
+                    </div>
 
-                                {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
-                                    <MenuItem key={idx} value={option.busNo}>
-                                        {option.busNo}
-                                    </MenuItem>
-                                ))}
 
-                            </TextField></Container>
+                    <div className="col-md-6">
+                        <h5>Select Bus:</h5>
+                        <Select
+                            fullWidth
+                            displayEmpty
+                            value={this.state.busNo}
+                            onChange={this.handleInput}
+                            IconComponent={ExpandMore}
+                            input={<OutlinedInput name="busNo" id="filled-bus-simple" />}
+                        >
+                            <MenuItem value="" disabled>
+                                Bus No.
+                            </MenuItem>
+                            {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
+                                <MenuItem key={idx} value={option.busNo}>
+                                    {option.busNo}
+                                </MenuItem>
+                            ))}
+
+                        </Select>
 
                     </div>
                     <br />
@@ -113,12 +123,13 @@ class FileReport extends React.Component {
                             </div>
                         </div>
                     </div>
-
+                    <br />
+                    <Button outline color="danger" onClick={this.cancelRep} className="float-left">Cancel</Button>
+                    <Button color="success" onClick={this.sendRep} className="float-right" >Submit</Button>
                 </Container>
-
                 :
+                <Redirect to="/" />
 
-                <Redirect to='/' />
         );
 
     }

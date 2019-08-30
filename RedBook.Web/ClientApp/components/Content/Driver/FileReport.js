@@ -39,7 +39,11 @@ class FileReport extends React.Component {
     }
 
     cancelRep() {
-        console.log('cancelling');
+        this.setState({
+            busNo: ''
+        });
+
+        this.props.history.goBack();
     }
 
     render() {
@@ -49,7 +53,7 @@ class FileReport extends React.Component {
 
                 <Container maxWidth="md">
 
-                    <h1> File Report </h1>
+                    <h1>File Report </h1>
                     <br />
                     <div className="col-md-6">
                         <Table borderless>

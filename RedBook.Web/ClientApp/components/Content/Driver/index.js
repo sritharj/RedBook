@@ -15,11 +15,15 @@ class Driver extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadBuses();
+        if (sessionStorage.getItem('buses') === null) {
+            this.props.loadBuses();
+        }
+        console.log(this.props);
     }
 
     fileRep() {
         this.props.history.push(`${this.props.match.url}/FileReport`);
+
     }
 
     viewRep() {

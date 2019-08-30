@@ -2,6 +2,7 @@
 
 const defaultState = {
     employee: JSON.parse(sessionStorage.getItem('emp')),
+    activeUser: false,
     success: false,
     loading: false,
 };
@@ -27,18 +28,19 @@ export const actionCreators = {
                             dispatch({
                                 type: 'EMP_LOGIN_COMPLETE',
                                 emp: sessionStorage.setItem('emp', JSON.stringify(data)),
-                                success: true
+                                activeUser: true,
+                                loading: true
                             });
                             
                         });
                 }
                 if (response.status >= 400) {
-                    dispatch({ type: 'EMP_LOGIN_COMPLETE', emp: null, success: false });
+                    dispatch({ type: 'EMP_LOGIN_COMPLETE', emp: null, activeUser: false, loading: false });
                     alert('Login Failed. Please Try Again');
                 }
 
             }).catch(err => {
-                dispatch({ type: 'EMP_LOGIN_COMPLETE', success: false });
+                dispatch({ type: 'EMP_LOGIN_COMPLETE', activeUser: false });
                 if (/NetworkError/i.test(err)) {
                     alert('A network error has occurred - data was not saved.Refresh this page and try again.');
                 }
@@ -47,7 +49,7 @@ export const actionCreators = {
 
     signOut: () => (dispatch) => {
         if (sessionStorage.getItem('emp') != null) {
-            dispatch({ type: 'EMP_SIGNOUT', emp: null, success: false });
+            dispatch({ type: 'EMP_SIGNOUT', emp: null, buses: null, activeUser: false });
             sessionStorage.clear();
             
         }
@@ -110,23 +112,26 @@ export const reducer = (state, action) => {
     switch (action.type) {
 
         case 'EMP_LOGIN':
-            return Object.assign({}, state, { success: true });
+            return Object.assign({}, state, { activeUser: true, loading: true });
         case 'EMP_LOGIN_COMPLETE':
-            if (action.success) {
+            if (action.activeUser) {
                 return Object.assign({}, state, {
                     employee: JSON.parse(sessionStorage.getItem('emp')),
-                    success: false
+                    activeUser: true,
+                    loading: false
                 });
             }
             else {
                 return Object.assign({}, state, {
-                    success: false
+                    activeUser: false,
+                    loading: false
                 });
             }
         case 'EMP_SIGNOUT':
             return Object.assign({}, state, {
                 employee: action.emp,
-                success: false
+                buses: action.buses,
+                activeUser: false
             });
         case 'REG_USER':
             return Object.assign({}, state, {

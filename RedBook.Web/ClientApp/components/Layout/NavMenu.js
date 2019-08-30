@@ -23,7 +23,7 @@ class NavMenu extends React.Component {
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light >
                     <Container>
                         <NavbarBrand tag={Link} to='/'>Norgesbuss</NavbarBrand>
-                        {this.props.success ? <Spinner color="dark" /> : null}
+                        {this.props.loading ? <Spinner color="dark" /> : null}
                         {this.props.employee ?
                             <Nav>
                                 

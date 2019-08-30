@@ -29,7 +29,7 @@ class LogIn extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.employee !== prevProps.employee) {
 
-            this.props.history.push(`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`);
+            this.props.history.replace(`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`);
 
         }
     }

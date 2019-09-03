@@ -10,14 +10,14 @@ export default class Layout extends React.Component {
     render() {
         return (
             <div>
-                    <NavMenu />
-                    <div className="container-fluid">
+                <NavMenu />
+                <div className="container-fluid">
 
-                        <div className="col">
-                            {this.props.children}
-                        </div>
+                    <div className="col">
+                        {this.props.children}
                     </div>
                 </div>
+            </div>
 
         );
     }

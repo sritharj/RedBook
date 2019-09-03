@@ -2,13 +2,14 @@
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import { MenuItem, Container, Select, OutlinedInput } from '@material-ui/core';
-import { Button } from 'reactstrap';
+import {
+    MenuItem, Container, Select, OutlinedInput, ExpansionPanel,
+    ExpansionPanelSummary, ExpansionPanelDetails
+} from '@material-ui/core';
+import { Button, Form, CustomInput, Table, FormGroup } from 'reactstrap';
 import { ExpandMore } from '@material-ui/icons';
-import { Table } from 'reactstrap';
 
 const d = new Date();
-
 
 class FileReport extends React.Component {
     constructor(props) {
@@ -16,11 +17,18 @@ class FileReport extends React.Component {
         this.state = {
 
             repDate: (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear(),
-            busNo: ''
+            busNo: '',
+
+            damages: {
+                exterior: [],
+                interior: [],
+            }
 
         }
 
         this.handleInput = this.handleInput.bind(this);
+        this.handleInterior = this.handleInterior.bind(this);
+        this.handleExterior = this.handleExterior.bind(this);
         this.cancelRep = this.cancelRep.bind(this);
         this.sendRep = this.sendRep.bind(this);
 
@@ -33,12 +41,50 @@ class FileReport extends React.Component {
         });
 
     }
+    handleExterior(ext) {
+        const extIndex = this.state.damages.exterior.indexOf(ext.target.value)
 
-    sendRep() {
-        console.log(this.state);
+        if (extIndex < 0) {
+            this.state.damages.exterior.push(ext.target.value);
+        } else {
+            this.state.damages.exterior.splice(extIndex, 1);
+        }
+
+        this.setState({
+            damages: {
+                exterior: [...this.state.damages.exterior],
+                interior: [...this.state.damages.interior]
+            }
+        })
+
     }
 
-    cancelRep() {
+    handleInterior(i) {
+        const intIndex = this.state.damages.interior.indexOf(i.target.value)
+
+        if (intIndex < 0) {
+            this.state.damages.interior.push(i.target.value);
+        } else {
+            this.state.damages.interior.splice(extIndex, 1);
+        }
+
+        this.setState({
+            damages: {
+                exterior: [...this.state.damages.exterior],
+                interior: [...this.state.damages.interior]
+            }
+        })
+
+    }
+
+    sendRep(e) {
+        e.preventDefault();
+        console.log(this.state);
+
+    }
+
+    cancelRep(e) {
+        e.preventDefault();
         this.setState({
             busNo: ''
         });
@@ -50,87 +96,133 @@ class FileReport extends React.Component {
 
         return (
             this.props.employee !== null && this.props.employee.empId == this.props.match.params.empId ?
-
+                
                 <Container maxWidth="md">
-
+                    <Form onSubmit={this.sendRep}>
                     <h1>File Report </h1>
                     <br />
-                    <div className="col-md-6">
-                        <Table borderless>
-                            <tbody>
-                                <tr>
-                                    <td scope="row">Employee ID</td>
-                                    <td>{this.props.employee.empId}</td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">Employee Name</td>
-                                    <td>{this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">Date</td>
-                                    <td>{this.state.repDate}</td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                    </div>
+                    
+                        <div className="col-md-6">
+                            <Table borderless>
+                                <tbody>
+                                    <tr>
+                                        <td scope="row">Employee ID</td>
+                                        <td>{this.props.employee.empId}</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">Employee Name</td>
+                                        <td>{this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row">Date</td>
+                                        <td>{this.state.repDate}</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </div>
 
 
-                    <div className="col-md-6">
-                        <h5>Select Bus:</h5>
-                        <Select
-                            fullWidth
-                            displayEmpty
-                            value={this.state.busNo}
-                            onChange={this.handleInput}
-                            IconComponent={ExpandMore}
-                            input={<OutlinedInput name="busNo" id="filled-bus-simple" />}
-                        >
-                            <MenuItem value="" disabled>
-                                Bus No.
+                        <div className="col-md-6">
+                            <h5>Select Bus:</h5>
+                            <Select
+                                fullWidth
+                                displayEmpty
+                                value={this.state.busNo}
+                                onChange={this.handleInput}
+                                IconComponent={ExpandMore}
+                                input={<OutlinedInput name="busNo" id="filled-bus-simple" />}
+                            >
+                                <MenuItem value="" disabled>
+                                    Bus No.
                             </MenuItem>
-                            {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
-                                <MenuItem key={idx} value={option.busNo}>
-                                    {option.busNo}
-                                </MenuItem>
-                            ))}
+                                {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
+                                    <MenuItem key={idx} value={option.busNo}>
+                                        {option.busNo}
+                                    </MenuItem>
+                                ))}
 
-                        </Select>
+                            </Select>
 
-                    </div>
-                    <br />
-                    <div className="card text-center">
-                        <div className="card-header">
-                            <ul className="nav nav-pills card-header-pills">
-                                <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link active" href="#dmg">Damage</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link" href="#mnt">Maintenance</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a data-toggle="pill" className="nav-link" href="#tech">Cleaning</a>
-                                </li>
-                            </ul>
                         </div>
-                        <div className="tab-content card-body">
-                            <div id="dmg" className="tab-pane fade in active show">
-                                <h3>Damage</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <br />
+                        <div className="card">
+                            <div className="card-header">
+                                <ul className="nav nav-pills card-header-pills">
+                                    <li className="nav-item">
+                                        <a data-toggle="pill" className="nav-link active" href="#dmg">Damage</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a data-toggle="pill" className="nav-link" href="#mnt">Maintenance</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a data-toggle="pill" className="nav-link" href="#tech">Cleaning</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <div id="mnt" className="tab-pane fade">
-                                <h3>Maintenance</h3>
-                                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            </div>
-                            <div id="tech" className="tab-pane fade">
-                                <h3>Technical</h3>
-                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                            <div className="tab-content card-body">
+                                <div id="dmg" className="tab-pane fade in active show">
+                                    <ExpansionPanel>
+                                        <ExpansionPanelSummary
+                                            expandIcon={<ExpandMore />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <h4>Exterior</h4>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <FormGroup>
+                                            <div>
+                                                
+                                                <h5>Front Lights</h5>
+                                                <CustomInput type="checkbox" id="frontLight1" value="Front Left" onChange={this.handleExterior} label="Front Left" inline />
+                                                <CustomInput type="checkbox" id="frontLight2" value="Front Right" onChange={this.handleExterior} label="Front Right" inline />
+                                                <CustomInput type="checkbox" id="frontLight3" value="Left Turn Signal" onChange={this.handleExterior} label="Left Turn Signal" inline />
+                                                <CustomInput type="checkbox" id="frontLight4" value="Right Turn Signal" onChange={this.handleExterior} label="Right Turn Signal" inline />
+
+                                                <h5>Rear Lights</h5>
+                                                <CustomInput type="checkbox" id="rearLight1" value="Rear Left" onChange={this.handleExterior} label="Rear Left" inline />
+                                                <CustomInput type="checkbox" id="rearLight2" value="Rear Right" onChange={this.handleExterior} label="Rear Right" inline />
+                                                <CustomInput type="checkbox" id="rearLight3" value="Rear Left Turn Signal" onChange={this.handleExterior} label="Rear Left Turn Signal" inline />
+                                                <CustomInput type="checkbox" id="rearLight4" value="Rear Right Turn Signal" onChange={this.handleExterior} label="Rear Right Turn Signal" inline />
+                                            </div>
+                                            </FormGroup>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel>
+                                        <ExpansionPanelSummary
+                                            expandIcon={<ExpandMore />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                        >
+                                            <h4>Interior</h4>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <div>
+                                                <CustomInput type="checkbox" id="interior1" value="Passenger Seat" onChange={this.handleInterior} label="Passenger Seats" inline />
+                                                <CustomInput type="checkbox" id="interior2" value="Driver's Seat" onChange={this.handleInterior} label="Driver's Seat" inline />
+                                            </div>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                </div>
+                                <div id="mnt" className="tab-pane fade">
+                                    <h3>Maintenance</h3>
+                                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                                <div id="tech" className="tab-pane fade">
+                                    <h3>Technical</h3>
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <Button outline color="danger" onClick={this.cancelRep} className="float-left">Cancel</Button>
-                    <Button color="success" onClick={this.sendRep} className="float-right" >Submit</Button>
-                </Container>
+                        <div>
+                            <Button outline color="danger" onClick={this.cancelRep} className="float-left" style={{marginTop:'2rem', marginBottom: '2rem'}}>Cancel</Button>
+                            <Button type="submit" color="success" className="float-right" style={{ marginTop: '2rem', marginBottom: '2rem' }}>Submit</Button>
+                            </div>
+                        </Form>
+                        <br />
+                            
+                    </Container>
+                
                 :
                 <Redirect to="/" />
 

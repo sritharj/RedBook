@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,12 +8,13 @@ using RedBook.Model.Interfaces;
 using RedBook.Repository;
 using RedBook.Service.Implementations;
 using RedBook.Service.Interfaces;
+using System.Data.SqlClient;
 
 namespace RedBook.Web
 {
     public class Startup
     {
-
+        private string _connection = null;
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
@@ -25,12 +27,10 @@ namespace RedBook.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton(Configuration);
-            //services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserInfoService, UserInfoService>();
 
@@ -44,10 +44,11 @@ namespace RedBook.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+
             }
             else
             {
@@ -69,7 +70,7 @@ namespace RedBook.Web
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
-            
+
         }
     }
 }

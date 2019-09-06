@@ -6,18 +6,26 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-
 namespace RedBook.Repository
 {
+
     public class UserRepository : IUserRepository
     {
         private readonly IConfiguration _config;
-
+        //private string _connection = null;
+        
         public UserRepository(IConfiguration config)
         {
             _config = config;
-        }
 
+            //var key = "RedBook";
+            //_connection = config.GetConnectionString(key);
+
+            //var builder = new SqlConnectionStringBuilder(_config.GetConnectionString("Redbook"));
+            //builder.Password = _config["AzDBPass"];
+            //_connection = builder.ConnectionString;
+        }
+        
         public User Authenticate(int empId, string pw)
         {
             const string sqlUser = @"SELECT * 

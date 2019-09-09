@@ -14,7 +14,8 @@ namespace RedBook.Web
 {
     public class Startup
     {
-        private string _connection = null;
+        //private string _connection = null;
+
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
@@ -33,6 +34,8 @@ namespace RedBook.Web
             services.AddSingleton(Configuration);
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserInfoService, UserInfoService>();
+            services.AddTransient<IReportRepository, ReportRepository>();
+            services.AddTransient<IReportService, ReportService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

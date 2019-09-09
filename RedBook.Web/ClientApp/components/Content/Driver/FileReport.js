@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import {
-    MenuItem, Container, Select, OutlinedInput, ExpansionPanel,
+    MenuItem, Container, ExpansionPanel,
     ExpansionPanelSummary, ExpansionPanelDetails
 } from '@material-ui/core';
-import { Button, Form, CustomInput, Table, FormGroup } from 'reactstrap';
+import { Button, CustomInput, Table, FormGroup } from 'reactstrap';
 import { ExpandMore } from '@material-ui/icons';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const d = new Date();
 
@@ -16,6 +17,7 @@ class FileReport extends React.Component {
         super(props);
         this.state = {
 
+            employeeName: this.props.employee.userInfo.firstName + ' ' + this.props.employee.userInfo.lastName,
             repDate: (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear(),
             busNo: '',
 
@@ -79,7 +81,11 @@ class FileReport extends React.Component {
 
     sendRep(e) {
         e.preventDefault();
+        var exter = this.state.damages.exterior.join(', ');
+        var inter = this.state.damages.interior.join(', ');
         console.log(this.state);
+        this.props.fileReport(this.props.employee.empId, this.state.employeeName, this.state.repDate, this.state.busNo, 'High', exter, inter, null);
+        
 
     }
 
@@ -98,7 +104,7 @@ class FileReport extends React.Component {
             this.props.employee !== null && this.props.employee.empId == this.props.match.params.empId ?
                 
                 <Container maxWidth="md">
-                    <Form onSubmit={this.sendRep}>
+                    <ValidatorForm onSubmit={this.sendRep}>
                     <h1>File Report </h1>
                     <br />
                     
@@ -124,25 +130,30 @@ class FileReport extends React.Component {
 
                         <div className="col-md-6">
                             <h5>Select Bus:</h5>
-                            <Select
+
+                            <TextValidator
+                                select
+                                variant="outlined"
+                                margin="normal"
                                 fullWidth
-                                displayEmpty
-                                value={this.state.busNo}
+                                id="busNo"
+                                label="Bus No"
+                                name="busNo"
                                 onChange={this.handleInput}
-                                IconComponent={ExpandMore}
-                                input={<OutlinedInput name="busNo" id="filled-bus-simple" />}
+                                validators={['required']}
+                                errorMessages={['Bus Number required']}
+                                value={this.state.busNo}
+                                
                             >
                                 <MenuItem value="" disabled>
                                     Bus No.
-                            </MenuItem>
+                                </MenuItem>
                                 {JSON.parse(sessionStorage.getItem('buses')).map((option, idx) => (
                                     <MenuItem key={idx} value={option.busNo}>
                                         {option.busNo}
                                     </MenuItem>
                                 ))}
-
-                            </Select>
-
+                            </TextValidator>
                         </div>
                         <br />
                         <div className="card">
@@ -172,16 +183,15 @@ class FileReport extends React.Component {
                                         <ExpansionPanelDetails>
                                             <FormGroup>
                                             <div>
-                                                
                                                 <h5>Front Lights</h5>
-                                                <CustomInput type="checkbox" id="frontLight1" value="Front Left" onChange={this.handleExterior} label="Front Left" inline />
-                                                <CustomInput type="checkbox" id="frontLight2" value="Front Right" onChange={this.handleExterior} label="Front Right" inline />
+                                                <CustomInput type="checkbox" id="frontLight1" value="Front Left Light" onChange={this.handleExterior} label="Front Left" inline />
+                                                <CustomInput type="checkbox" id="frontLight2" value="Front Right Light" onChange={this.handleExterior} label="Front Right" inline />
                                                 <CustomInput type="checkbox" id="frontLight3" value="Left Turn Signal" onChange={this.handleExterior} label="Left Turn Signal" inline />
                                                 <CustomInput type="checkbox" id="frontLight4" value="Right Turn Signal" onChange={this.handleExterior} label="Right Turn Signal" inline />
 
                                                 <h5>Rear Lights</h5>
-                                                <CustomInput type="checkbox" id="rearLight1" value="Rear Left" onChange={this.handleExterior} label="Rear Left" inline />
-                                                <CustomInput type="checkbox" id="rearLight2" value="Rear Right" onChange={this.handleExterior} label="Rear Right" inline />
+                                                <CustomInput type="checkbox" id="rearLight1" value="Rear Left Light" onChange={this.handleExterior} label="Rear Left" inline />
+                                                <CustomInput type="checkbox" id="rearLight2" value="Rear Right Light" onChange={this.handleExterior} label="Rear Right" inline />
                                                 <CustomInput type="checkbox" id="rearLight3" value="Rear Left Turn Signal" onChange={this.handleExterior} label="Rear Left Turn Signal" inline />
                                                 <CustomInput type="checkbox" id="rearLight4" value="Rear Right Turn Signal" onChange={this.handleExterior} label="Rear Right Turn Signal" inline />
                                             </div>
@@ -217,8 +227,8 @@ class FileReport extends React.Component {
                         <div>
                             <Button outline color="danger" onClick={this.cancelRep} className="float-left" style={{marginTop:'2rem', marginBottom: '2rem'}}>Cancel</Button>
                             <Button type="submit" color="success" className="float-right" style={{ marginTop: '2rem', marginBottom: '2rem' }}>Submit</Button>
-                            </div>
-                        </Form>
+                        </div>
+                    </ValidatorForm>
                         <br />
                             
                     </Container>

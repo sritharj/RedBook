@@ -31,7 +31,7 @@ export const actionCreators = {
                                 activeUser: true,
                                 loading: true
                             });
-                            
+
                         });
                 }
                 if (response.status >= 400) {
@@ -51,7 +51,7 @@ export const actionCreators = {
         if (sessionStorage.getItem('emp') != null) {
             dispatch({ type: 'EMP_SIGNOUT', emp: null, buses: null, activeUser: false });
             sessionStorage.clear();
-            
+
         }
 
     },
@@ -104,6 +104,33 @@ export const actionCreators = {
 
                 }
             });
+    },
+
+    fileReport: ( empId, employeeName, date, busNo, priority, exteriorDamage, interiorDamage, maintenance) => (dispatch) => {
+        const req = { empId: empId, employeeName: employeeName, date: date, busNo: busNo, priority: priority, exteriorDamage: exteriorDamage, interiorDamage: interiorDamage, maintenance: maintenance };
+
+        const obj = Object.assign({}, req);
+        dispatch({ type: 'FILE_REPORT', req: req });
+        const url = `api/report/insert`;
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(obj)
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch({ type: 'FILE_REPORT_COMPLETE', req: req, success: true });
+                }
+                if (response.status >= 400) {
+                    dispatch({ type: 'FILE_REPORT_COMPLETE', req: req, success: false });
+                    alert('Error could not submit');
+                }
+            }).catch(err => {
+                dispatch({ type: 'FILE_REPORT_COMPLETE', success: false });
+                if (/NetworkError/i.test(err)) {
+                    alert('A network error has occurred - data was not saved. Refresh this page and try again.');
+                }
+            });
     }
 
 };
@@ -139,8 +166,8 @@ export const reducer = (state, action) => {
             });
         case 'REG_USER_COMPLETE':
             return Object.assign({}, state, {
-                    success: false
-                });
+                success: false
+            });
         case 'REQUEST_BUS_LIST':
             return Object.assign({}, state, { success: true });
         case 'RECEIVE_BUS_LIST':
@@ -148,7 +175,14 @@ export const reducer = (state, action) => {
                 buses: JSON.parse(sessionStorage.getItem('buses')),
                 success: false
             });
-            
+        case 'FILE_REPORT':
+            return Object.assign({}, state, { success: true });
+        case 'FILE_REPORT_COMPLETE':
+            if (action.success) {
+                req: action.req
+            }
+            return Object.assign({}, state, { success: false });
+
     }
     return state || defaultState;
 };

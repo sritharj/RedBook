@@ -18,7 +18,6 @@ class Driver extends React.Component {
         if (sessionStorage.getItem('buses') === null) {
             this.props.loadBuses();
         }
-        console.log(this.props);
     }
 
     fileRep() {

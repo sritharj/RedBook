@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { Button, Spinner } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { Container } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
@@ -33,7 +33,7 @@ class LogIn extends React.Component {
 
         }
     }
-    
+
     handleInput(e) {
         const prop = e.target.name;
         this.setState({
@@ -87,13 +87,25 @@ class LogIn extends React.Component {
 
                         />
 
-                        <Button color="success" block type="submit">
-                            Sign In
-                        </Button>
+                        {this.props.loading ? <Button color="primary" block disabled>
+                            <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                            Loading...
+                            </Button> :
+                            <Button color="success" block type="submit">
+                                Sign In
+                            </Button>
+                        }
+
                         <br />
 
                     </ValidatorForm>
-                    
+
                     <Button color="link" block onClick={this.regPage}>
                         Create an account
                     </Button>

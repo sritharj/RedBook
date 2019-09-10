@@ -27,3 +27,11 @@
     padding-left: 0px !important;
     font-size: 1.5rem;
 }
+
+.MuiRadio-colorPrimary.Mui-checked {
+    color: #FFBF00 !important;
+}
+
+.MuiRadio-colorSecondary.Mui-checked {
+    color: #FF0000 !important;
+}

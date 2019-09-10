@@ -5,7 +5,6 @@ using RedBook.Service.Requests;
 using RedBook.Service.Responses;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RedBook.Service.Implementations
 {
@@ -32,6 +31,30 @@ namespace RedBook.Service.Implementations
                 response.Success = true;
             }
             catch (Exception ex)
+            {
+                response.AddMessage(ex.Message);
+            }
+
+            return response;
+        }
+
+        public ImageBasedResponse InsertImage(ImageDataRequest request)
+        {
+            var response = new ImageBasedResponse
+            {
+                Images = new List<Image>()
+            };
+
+            try
+            {
+                foreach( var i in request.Details)
+                {
+                    var id = _repRepo.InsertImage(request.ReportId, i.Image);
+                    response.Images.Add(new Image(id, request.ReportId, i.Image));
+                }
+                response.Success = true;
+            }
+            catch(Exception ex)
             {
                 response.AddMessage(ex.Message);
             }

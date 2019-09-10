@@ -30,5 +30,19 @@ namespace RedBook.Repository
                 return cn.Query<int>(sql, new {empId, employeeName, date, busNo, priority, exteriorDamage, interiorDamage, maintenance }).SingleOrDefault();
             }
         }
+
+        public int InsertImage(int reportId, byte[] image)
+        {
+            const string sql = @"INSERT INTO Images (ReportId, Image)
+                                 VALUES (@reportId, @image)
+                                 SELECT @@IDENTITY";
+
+            using (var cn = new SqlConnection(_config.GetConnectionString("RedBook")))
+            {
+                cn.Open();
+                return cn.Query<int>(sql, new { reportId, image }).SingleOrDefault();
+            }
+
+        }
     }
 }

@@ -4,13 +4,27 @@ import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import {
     MenuItem, Container, ExpansionPanel,
-    ExpansionPanelSummary, ExpansionPanelDetails
+    ExpansionPanelSummary, ExpansionPanelDetails,
+    Radio, RadioGroup, FormLabel, FormControlLabel
 } from '@material-ui/core';
-import { Button, CustomInput, Table, FormGroup } from 'reactstrap';
+import { Button, CustomInput, Table, FormGroup, Label, Input } from 'reactstrap';
 import { ExpandMore } from '@material-ui/icons';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const d = new Date();
+const styles = theme => ({
+    medRadio: {
+        '&$checked': {
+            color: '#ffc107'
+        }
+    },
+    highRadio: {
+        '&$checked': {
+            color: '#dc3545'
+        }
+    },
+    checked: {}
+})
 
 class FileReport extends React.Component {
     constructor(props) {
@@ -20,15 +34,17 @@ class FileReport extends React.Component {
             employeeName: this.props.employee.userInfo.firstName + ' ' + this.props.employee.userInfo.lastName,
             repDate: (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear(),
             busNo: '',
+            priority: '',
 
             damages: {
                 exterior: [],
                 interior: [],
-            }
-
+            },
+            images: []
         }
 
         this.handleInput = this.handleInput.bind(this);
+        this.handleImages = this.handleImages.bind(this);
         this.handleInterior = this.handleInterior.bind(this);
         this.handleExterior = this.handleExterior.bind(this);
         this.cancelRep = this.cancelRep.bind(this);
@@ -38,11 +54,22 @@ class FileReport extends React.Component {
 
     handleInput(e) {
         const prop = e.target.name;
+        
         this.setState({
             [prop]: e.target.value
         });
 
     }
+
+    handleImages(e) {
+        const files = [...e.target.files];
+        this.setState({
+            images: files
+        });
+
+        console.log(this.state);
+    }
+
     handleExterior(ext) {
         const extIndex = this.state.damages.exterior.indexOf(ext.target.value)
 
@@ -83,10 +110,10 @@ class FileReport extends React.Component {
         e.preventDefault();
         var exter = this.state.damages.exterior.join(', ');
         var inter = this.state.damages.interior.join(', ');
-        console.log(this.state);
-        this.props.fileReport(this.props.employee.empId, this.state.employeeName, this.state.repDate, this.state.busNo, 'High', exter, inter, null);
+        this.props.fileReport(this.props.employee.empId, this.state.employeeName, this.state.repDate, this.state.busNo, this.state.priority, exter, inter, null);
+        //this.props.insertImage(this.props.report.reportId, this.state.images);
         
-
+        //this.props.insertImage(2005, this.state.images);
     }
 
     cancelRep(e) {
@@ -154,6 +181,19 @@ class FileReport extends React.Component {
                                     </MenuItem>
                                 ))}
                             </TextValidator>
+                            <FormLabel component="legend">Role</FormLabel>
+                            <RadioGroup
+                                aria-label="Priority"
+                                name="priority"
+                                value={this.state.priority}
+                                onChange={this.handleInput}
+                                row
+                            >
+                                <FormControlLabel value="Medium" control={<Radio color="primary" required />} label="Medium" />
+                                <FormControlLabel value="High" control={<Radio color="secondary" required />} label="High" />
+                            </RadioGroup>
+                            <Label for="btnUploadPh">Upload Image</Label>
+                            <Input type="file" name="file" id="btnUploadPh" multiple onChange={this.handleImages} accept="image/*" />
                         </div>
                         <br />
                         <div className="card">

@@ -9,5 +9,7 @@ namespace RedBook.Service.Interfaces
     public interface IReportService
     {
         FileReportResponse FileReport(FileReportRequest request);
+
+        ImageBasedResponse InsertImage(ImageDataRequest request);
     }
 }

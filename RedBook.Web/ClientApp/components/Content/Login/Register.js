@@ -5,10 +5,7 @@ import { Button } from 'reactstrap';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 import { Container } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Radio, RadioGroup, FormLabel, FormControlLabel } from '@material-ui/core';
 
 
 class Register extends React.Component {

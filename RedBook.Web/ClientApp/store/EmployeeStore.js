@@ -2,6 +2,7 @@
 
 const defaultState = {
     employee: JSON.parse(sessionStorage.getItem('emp')),
+    report: {},
     activeUser: false,
     success: false,
     loading: false,
@@ -106,27 +107,59 @@ export const actionCreators = {
             });
     },
 
-    fileReport: ( empId, employeeName, date, busNo, priority, exteriorDamage, interiorDamage, maintenance) => (dispatch) => {
+    fileReport: (empId, employeeName, date, busNo, priority, exteriorDamage, interiorDamage, maintenance) => (dispatch) => {
         const req = { empId: empId, employeeName: employeeName, date: date, busNo: busNo, priority: priority, exteriorDamage: exteriorDamage, interiorDamage: interiorDamage, maintenance: maintenance };
 
         const obj = Object.assign({}, req);
         dispatch({ type: 'FILE_REPORT', req: req });
         const url = `api/report/insert`;
         fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(obj)
         })
             .then(response => {
                 if (response.status === 200) {
-                    dispatch({ type: 'FILE_REPORT_COMPLETE', req: req, success: true });
+                    response.json()
+                        .then(data => {
+                            dispatch({ type: 'FILE_REPORT_COMPLETE', req: data, success: true });
+                        })
+                    
                 }
                 if (response.status >= 400) {
-                    dispatch({ type: 'FILE_REPORT_COMPLETE', req: req, success: false });
+                    dispatch({ type: 'FILE_REPORT_COMPLETE', success: false });
                     alert('Error could not submit');
                 }
             }).catch(err => {
                 dispatch({ type: 'FILE_REPORT_COMPLETE', success: false });
+                if (/NetworkError/i.test(err)) {
+                    alert('A network error has occurred - data was not saved. Refresh this page and try again.');
+                }
+            });
+    },
+
+    insertImage: (reportId, files) => (dispatch) => {
+        const formData = new FormData();
+        files.forEach((f) => formData.append('files', f));
+        formData.append('reportId', reportId);
+
+        dispatch({ type: 'IMAGE_INSERT', reportId: reportId, files: files });
+        fetch(`api/report/insert/image`, {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.status === 200) {
+                response.json()
+                    .then(data => {
+                        dispatch({ type: 'IMAGE_INSERT_COMPLETE', reportId: reportId, files: data, success: true });
+                    });
+            }
+            if (response.status >= 400) {
+                dispatch({ type: 'IMAGE_INSERT_COMPLETE', reportId: reportId, success: false });
+                alert('Image upload failed');
+            }
+            }).catch(err => {
+                dispatch({ type: 'IMAGE_INSERT_COMPLETE', success: false });
                 if (/NetworkError/i.test(err)) {
                     alert('A network error has occurred - data was not saved. Refresh this page and try again.');
                 }
@@ -177,9 +210,19 @@ export const reducer = (state, action) => {
             });
         case 'FILE_REPORT':
             return Object.assign({}, state, { success: true });
+
         case 'FILE_REPORT_COMPLETE':
+
+                if (action.success) {
+                    return Object.assign({}, state, { report: action.req, success: false });
+
+                }
+            return Object.assign({}, state, { success: false });
+        case 'INSERT_IMAGE':
+            return Object.assign({}, state, { success: true });
+        case 'INSERT_IMAGE_COMPLETE':
             if (action.success) {
-                req: action.req
+                reportId: action.reportId
             }
             return Object.assign({}, state, { success: false });
 

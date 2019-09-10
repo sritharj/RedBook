@@ -18,7 +18,10 @@ namespace RedBook.Model
             ExteriorDamage = exteriorDamage;
             InteriorDamage = interiorDamage;
             Maintenance = maintenance;
+            ReportImages = new List<Image>();
+
         }
+
         public int ReportId { get; set; }
         public int EmpId { get; set; }
         public string EmployeeName { get; set; }
@@ -29,5 +32,7 @@ namespace RedBook.Model
         public string ExteriorDamage { get; set; }
         public string InteriorDamage { get; set; }
         public string Maintenance { get; set; }
+        public List<Image> ReportImages { get; set; }
+
     }
 }

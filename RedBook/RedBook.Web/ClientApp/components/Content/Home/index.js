@@ -1,13 +1,12 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
 import Login from '../Login';
-import { Spinner } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 
 class Home extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
     }
 
     render() {
@@ -15,7 +14,7 @@ class Home extends React.Component {
         return (
 
             sessionStorage.getItem('emp') != null ?
-                <Redirect to={`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`} />
+                <Redirect to={`/${this.props.employee.role}/${this.props.employee.empId}`} />
                 :
                 <div>
                     <h1 className="text-center">Red Book</h1>

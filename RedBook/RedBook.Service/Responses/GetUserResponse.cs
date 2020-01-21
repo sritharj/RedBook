@@ -4,6 +4,6 @@ namespace RedBook.Service.Responses
 {
     public class GetUserResponse : BaseResponse
     {
-        public User User { get; set; }
+        public UserInfo User { get; set; }
     }
 }

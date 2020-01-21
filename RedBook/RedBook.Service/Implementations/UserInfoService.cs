@@ -28,7 +28,7 @@ namespace RedBook.Service.Implementations
             if (data == null) return null;
 
             data.UserInfo = _userRepo.Find(request.EmpId);
-            response.User = data;
+            response.User = data.UserInfo;
             response.Success = true;
 
             return response;

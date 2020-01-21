@@ -12,10 +12,10 @@ export default function Routes() {
     return (
         <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/Register' component={Register} />
+            <Route path='/register' component={Register} />
             <Route exact path='/Driver/:empId' component={Driver} />
-            <Route exact path='/Driver/:empId/ViewReports' component={ViewReports} />
-            <Route exact path='/Driver/:empId/FileReport' component={FileReport} />
+            <Route exact path='/Driver/:empId/view_reports' component={ViewReports} />
+            <Route exact path='/Driver/:empId/file_report' component={FileReport} />
             <Route exact path='/Mechanic/:empId' component={Mechanic} />
             <Route component={NotFound} />
 

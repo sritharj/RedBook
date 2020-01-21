@@ -7,8 +7,8 @@ import { Container } from '@material-ui/core';
 import { Card, CardTitle } from 'reactstrap';
 
 class Driver extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.fileRep = this.fileRep.bind(this);
         this.viewRep = this.viewRep.bind(this);
@@ -21,19 +21,19 @@ class Driver extends React.Component {
     }
 
     fileRep() {
-        this.props.history.push(`${this.props.match.url}/FileReport`);
+        this.props.history.push(`${this.props.match.url}/file_report`);
 
     }
 
     viewRep() {
-        this.props.history.push(`${this.props.match.url}/ViewReports`);
+        this.props.history.push(`${this.props.match.url}/view_reports`);
 
     }
 
     render() {
 
         return (
-            this.props.employee != null && this.props.employee.empId === parseInt(this.props.match.params.empId, 10) ?
+            this.props.employee !== null && this.props.employee.empId === parseInt(this.props.match.params.empId, 10) ?
                 <Container maxWidth="md">
                     <h1> Driver Dashboard </h1>
 

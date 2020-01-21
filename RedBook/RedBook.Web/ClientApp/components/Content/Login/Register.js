@@ -40,12 +40,6 @@ class Register extends React.Component {
         ValidatorForm.removeValidationRule('isPasswordMatch');
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.success !== prevProps.success) {
-            this.props.history.push('/');
-
-        }
-    }
 
     handleInput(e) {
         const prop = e.target.name;
@@ -55,7 +49,7 @@ class Register extends React.Component {
     }
 
     register() {
-        this.props.register(this.state.empId, this.state.pw, this.state.firstName, this.state.lastName, this.state.role);
+        this.props.register(Number(this.state.empId), this.state.pw, this.state.firstName, this.state.lastName, this.state.role);
 
     }
 

@@ -5,8 +5,8 @@ import { Container } from '@material-ui/core';
 import * as EmployeeStore from '../../../store/EmployeeStore';
 
 class ViewReports extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
     }
 

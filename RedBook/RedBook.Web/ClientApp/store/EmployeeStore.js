@@ -1,4 +1,5 @@
 ﻿import 'isomorphic-fetch';
+import history from '../Helper/history';
 
 const defaultState = {
     employee: JSON.parse(sessionStorage.getItem('emp')),
@@ -61,7 +62,7 @@ export const actionCreators = {
         const req = { empId: empId, password: password, first: first, last: last, role: role }
 
         const obj = Object.assign({}, req);
-        dispatch({ type: 'REG_USER', req: req });
+        dispatch({ type: 'REG_USER' });
         const url = `api/employee/register`;
         fetch(url, {
             method: 'PUT',
@@ -69,13 +70,16 @@ export const actionCreators = {
             body: JSON.stringify(obj)
         })
             .then(response => {
+
                 if (response.status === 200) {
                     dispatch({ type: 'REG_USER_COMPLETE', req: req, success: true });
                     alert('Registration Successful');
+                    history.push('/');
                 }
                 if (response.status >= 400) {
                     dispatch({ type: 'REG_USER_COMPLETE', success: false });
                     alert('Error, registration failed');
+                    history.push('/register');
                 }
             }).catch(err => {
                 dispatch({ type: 'REG_USER_COMPLETE', success: false });
@@ -173,6 +177,7 @@ export const reducer = (state, action) => {
 
         case 'EMP_LOGIN':
             return Object.assign({}, state, { activeUser: true, loading: true });
+
         case 'EMP_LOGIN_COMPLETE':
             if (action.activeUser) {
                 return Object.assign({}, state, {
@@ -187,27 +192,33 @@ export const reducer = (state, action) => {
                     loading: false
                 });
             }
+
         case 'EMP_SIGNOUT':
             return Object.assign({}, state, {
                 employee: action.emp,
                 buses: action.buses,
                 activeUser: false
             });
+
         case 'REG_USER':
             return Object.assign({}, state, {
                 success: true
             });
+
         case 'REG_USER_COMPLETE':
             return Object.assign({}, state, {
                 success: false
             });
+
         case 'REQUEST_BUS_LIST':
             return Object.assign({}, state, { success: true });
+
         case 'RECEIVE_BUS_LIST':
             return Object.assign({}, state, {
                 buses: JSON.parse(sessionStorage.getItem('buses')),
                 success: false
             });
+
         case 'FILE_REPORT':
             return Object.assign({}, state, { success: true });
 
@@ -218,8 +229,10 @@ export const reducer = (state, action) => {
 
                 }
             return Object.assign({}, state, { success: false });
+
         case 'INSERT_IMAGE':
             return Object.assign({}, state, { success: true });
+
         case 'INSERT_IMAGE_COMPLETE':
             if (action.success) {
                 reportId: action.reportId

@@ -26,7 +26,7 @@ class NavMenu extends React.Component {
                         {this.props.employee ?
                             <Nav>
                                 
-                                <NavLink disabled>Welcome {this.props.employee.userInfo.firstName} {this.props.employee.userInfo.lastName}</NavLink>
+                                <NavLink disabled>Welcome {this.props.employee.firstName} {this.props.employee.lastName}</NavLink>
                                 <Button className="float-right" outline color="danger" onClick={this.signOut}>Sign Out</Button>
                             </Nav>
                             :

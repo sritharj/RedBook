@@ -11,7 +11,7 @@ import { Button, CustomInput, Table, FormGroup, Label, Input } from 'reactstrap'
 import { ExpandMore } from '@material-ui/icons';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
-const d = new Date();
+const date = new Date();
 const styles = theme => ({
     medRadio: {
         '&$checked': {
@@ -29,10 +29,11 @@ const styles = theme => ({
 class FileReport extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
 
-            employeeName: this.props.employee.userInfo.firstName + ' ' + this.props.employee.userInfo.lastName,
-            repDate: (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear(),
+            employeeName: props.employee.firstName + ' ' + props.employee.lastName,
+            repDate: (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear(),
             busNo: '',
             priority: '',
 

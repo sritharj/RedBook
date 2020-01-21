@@ -6,12 +6,12 @@ import * as EmployeeStore from '../../../store/EmployeeStore';
 import { Container } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
-//use pass123 for password when testing
+//use pass123 for driver and pass321 for mechanic
 //hide pass in connection string
 
 class LogIn extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
 
@@ -29,7 +29,7 @@ class LogIn extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.employee !== prevProps.employee) {
 
-            this.props.history.replace(`/${this.props.employee.userInfo.role}/${this.props.employee.empId}`);
+            this.props.history.replace(`/${this.props.employee.role}/${this.props.employee.empId}`);
 
         }
     }
@@ -42,11 +42,11 @@ class LogIn extends React.Component {
     }
 
     getUser() {
-        this.props.authenticate(this.state.empId, this.state.pw);
+        this.props.authenticate(Number(this.state.empId), this.state.pw);
     }
 
     regPage() {
-        this.props.history.push('/Register');
+        this.props.history.push('/register');
 
     }
 

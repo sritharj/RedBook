@@ -1,27 +1,26 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 import * as EmployeeStore from '../../../store/EmployeeStore';
-import NotFound from '../NotFound';
 
 class Mechanic extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
     }
 
     render() {
-        var empStor = JSON.parse(sessionStorage.getItem('emp'));
 
         return (
-            empStor != null && parseInt(this.props.match.params.empId, 10) === empStor.empId ?
-                <div>
+            this.props.employee !== null && this.props.employee.empId === parseInt(this.props.match.params.empId, 10) ?
+                <Container maxWidth="md">
                     <h1> Mechanic Dashboard </h1>
-                    <h2> Welcome {empStor.userInfo.firstName} {empStor.userInfo.firstName} </h2>
-                </div>
+                </Container>
                 
                 :
 
-                <NotFound />
+                <Redirect to='/' />
 
         );
 
